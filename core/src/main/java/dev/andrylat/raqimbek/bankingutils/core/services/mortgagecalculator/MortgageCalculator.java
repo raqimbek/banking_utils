@@ -9,6 +9,7 @@ public class MortgageCalculator {
     var borrowedAmount = new BigDecimal(inputList.get(0));
     var annualInterestRate = new BigDecimal(inputList.get(1));
     var numberOfYears = new BigDecimal(inputList.get(2));
+
     annualInterestRate = annualInterestRate.divide(new BigDecimal(100), RoundingMode.HALF_EVEN);
 
     var payBackForEveryCurrencyUnit =
