@@ -5,7 +5,7 @@ import com.sun.net.httpserver.HttpHandler;
 import dev.andrylat.raqimbek.bankingutils.core.validators.CardValidator;
 import org.json.JSONObject;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.List;
 
 public class CardValidationHandler implements HttpHandler {
   CardValidator cardValidator = new CardValidator();
@@ -14,20 +14,25 @@ public class CardValidationHandler implements HttpHandler {
 
   @Override
   public void handle(HttpExchange exchange) throws IOException {
-    if ("POST".equals(exchange.getRequestMethod())) {
-      var requestBody = httpRequestReader.readRequestBody(exchange);
-      var requestJson = new JSONObject(requestBody);
-      var cardNumber = Arrays.asList(requestJson.getString("cardNumber").split(""));
-      var cardValidationInfo = cardValidator.validate(cardNumber);
-      var response = new JSONObject();
+    var contentType = exchange.getRequestHeaders().getFirst("Content-Type");
 
-      response.put("validation-result", cardValidationInfo.isValid());
+    if (exchange.getRequestMethod().equals("POST")) {
+      if (contentType != null && contentType.startsWith("application/x-www-form-urlencoded")) {
+        var requestParametersMap = httpRequestReader.getRequestBodyParametersMap(exchange);
+        var requestJson = new JSONObject();
+        requestParametersMap.forEach(requestJson::put);
+        var cardNumber = requestJson.getString("cardNumber");
+        var cardValidationInfo = cardValidator.validate(List.of(cardNumber));
+        var response = new JSONObject();
 
-      if (cardValidationInfo.isValid()) {
-        httpResponder.respondJson(exchange, response, 200);
-      } else {
-        response.put("validation-messages", cardValidationInfo.errors());
-        httpResponder.respondJson(exchange, response, 400);
+        response.put("validation-result", cardValidationInfo.isValid());
+
+        if (cardValidationInfo.isValid()) {
+          httpResponder.respondJson(exchange, response, 200);
+        } else {
+          response.put("validation-messages", cardValidationInfo.errors());
+          httpResponder.respondJson(exchange, response, 400);
+        }
       }
     }
   }

@@ -17,14 +17,9 @@ public class HttpResponder {
 
   public void respondJson(HttpExchange exchange, JSONObject responseDataJson, int statusCode)
       throws IOException {
+
     exchange.getResponseHeaders().set("Content-Type", "application/json");
 
-    var responseJson = new JSONObject();
-    responseJson.put("status", 200);
-    responseJson.put("message", "OK");
-
-    responseDataJson.keySet().forEach(key -> responseJson.put(key, responseDataJson.get(key)));
-
-    respond(exchange, responseJson.toString(), statusCode);
+    respond(exchange, responseDataJson.toString(), statusCode);
   }
 }

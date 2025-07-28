@@ -16,27 +16,32 @@ public class MortgageCalculationHandler implements HttpHandler {
 
   @Override
   public void handle(HttpExchange exchange) throws IOException {
-    if ("POST".equals(exchange.getRequestMethod())) {
-      var requestBody = httpRequestReader.readRequestBody(exchange);
-      var requestJson = new JSONObject(requestBody);
-      var borrowedAmount = requestJson.getString("borrowedAmount");
-      var annualInterest = requestJson.getString("annualInterest");
-      var numberOfYears = requestJson.getString("numberOfYears");
-      var mortgageInputValidationInfo =
-          mortgageInputValidator.validate(List.of(borrowedAmount, annualInterest, numberOfYears));
-      var response = new JSONObject();
+    var contentType = exchange.getRequestHeaders().getFirst("Content-Type");
 
-      if (mortgageInputValidationInfo.isValid()) {
-        response.put(
-            "monthly-mortgage-payment-amount",
-            mortgageCalculator
-                .calculateMonthlyMortgagePayment(
-                    List.of(borrowedAmount, annualInterest, numberOfYears))
-                .toString());
-        httpResponder.respondJson(exchange, response, 200);
-      } else {
-        response.put("validation-messages", mortgageInputValidationInfo.errors());
-        httpResponder.respondJson(exchange, response, 400);
+    if (exchange.getRequestMethod().equals("POST")) {
+      if (contentType != null && contentType.startsWith("application/x-www-form-urlencoded")) {
+        var requestParametersMap = httpRequestReader.getRequestBodyParametersMap(exchange);
+        var requestJson = new JSONObject();
+        requestParametersMap.forEach(requestJson::put);
+        var borrowedAmount = requestJson.getString("borrowedAmount");
+        var annualInterest = requestJson.getString("annualInterest");
+        var numberOfYears = requestJson.getString("numberOfYears");
+        var mortgageInputValidationInfo =
+            mortgageInputValidator.validate(List.of(borrowedAmount, annualInterest, numberOfYears));
+        var response = new JSONObject();
+
+        if (mortgageInputValidationInfo.isValid()) {
+          response.put(
+              "monthly-mortgage-payment-amount",
+              mortgageCalculator
+                  .calculateMonthlyMortgagePayment(
+                      List.of(borrowedAmount, annualInterest, numberOfYears))
+                  .toString());
+          httpResponder.respondJson(exchange, response, 200);
+        } else {
+          response.put("validation-messages", mortgageInputValidationInfo.errors());
+          httpResponder.respondJson(exchange, response, 400);
+        }
       }
     }
   }
