@@ -12,7 +12,6 @@ public class MortgageInputValidator implements Validator {
       var borrowedAmount = inputList.get(0);
       var annualInterestRate = inputList.get(1);
       var numberOfYears = inputList.get(2);
-
       var errors = generateErrors(borrowedAmount, annualInterestRate, numberOfYears);
 
       return new MortgageInputValidationInfo(errors.isEmpty(), errors);
@@ -48,6 +47,6 @@ public class MortgageInputValidator implements Validator {
   }
 
   private static boolean greaterThanMinimumBorrowedAmount(String borrowedAmount) {
-    return Integer.parseInt(borrowedAmount) >= MINIMUM_BORROWED_AMOUNT;
+    return Double.parseDouble(borrowedAmount) >= MINIMUM_BORROWED_AMOUNT;
   }
 }
