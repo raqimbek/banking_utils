@@ -1,0 +1,221 @@
+{
+	"info": {
+		"_postman_id": "5b9b1557-6813-41b0-b4de-611a1131f9e4",
+		"name": "BankingUtilsAppRestTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47064912",
+		"_collection_link": "https://raqimbek-6863612.postman.co/workspace/AndryLat's-Workspace~013326bb-f626-44b0-8ccf-f5db920eb156/collection/47064912-5b9b1557-6813-41b0-b4de-611a1131f9e4?action=share&source=collection_link&creator=47064912"
+	},
+	"item": [
+		{
+			"name": "localhost:8081/card-number/payment-system",
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "cardNumber",
+							"value": "5425233430109903",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/card-number/payment-system",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"card-number",
+						"payment-system"
+					]
+				},
+				"description": "Request for the payment system with valid parameters"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8081/card-number/payment-system",
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": false
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "cardNumber",
+							"value": "525233430109903",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/card-number/payment-system",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"card-number",
+						"payment-system"
+					]
+				},
+				"description": "Request for the payment system with invalid parameters"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8081/card-number/validation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "cardNumber",
+							"value": "5425233430109903",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/card-number/validation",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"card-number",
+						"validation"
+					]
+				},
+				"description": "Request for the card number validation with valid parameters"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8081/card-number/validation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "cardNumber",
+							"value": "5625233430109903",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/card-number/validation",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"card-number",
+						"validation"
+					]
+				},
+				"description": "Request for the card number validation with invalid parameters"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8081/mortgage/calculation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "borrowedAmount",
+							"value": "360000.0",
+							"type": "text"
+						},
+						{
+							"key": "annualInterest",
+							"value": "7.5",
+							"type": "text"
+						},
+						{
+							"key": "numberOfYears",
+							"value": "30",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/mortgage/calculation",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"mortgage",
+						"calculation"
+					]
+				},
+				"description": "Mortgage Calculation with a valid input."
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8081/mortgage/calculation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "borrowedAmount",
+							"value": "360000.0",
+							"type": "text"
+						},
+						{
+							"key": "annualInterest",
+							"value": "7.5",
+							"type": "text"
+						},
+						{
+							"key": "numberOfYears",
+							"value": "thirty",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/mortgage/calculation",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"mortgage",
+						"calculation"
+					]
+				},
+				"description": "Mortgage Calculation with an invalid input"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "localhost:8081",
+			"type": "default"
+		}
+	]
+}
