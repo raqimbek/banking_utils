@@ -1,7 +1,5 @@
 package dev.andrylat.raqimbek.bankingutils.cli.services.userinteraction;
 
-import dev.andrylat.raqimbek.bankingutils.core.services.userinteraction.UserInteraction;
-
 import java.util.Scanner;
 import java.util.List;
 import java.io.PrintStream;

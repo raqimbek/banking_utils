@@ -1,8 +1,8 @@
-package dev.andrylat.raqimbek.bankingutils.core.dialogs;
+package dev.andrylat.raqimbek.bankingutils.cli.dialogs;
 
 import dev.andrylat.raqimbek.bankingutils.core.services.mortgagecalculator.MortgageCalculator;
 import dev.andrylat.raqimbek.bankingutils.core.validators.MortgageInputValidator;
-import dev.andrylat.raqimbek.bankingutils.core.services.userinteraction.UserInteraction;
+import dev.andrylat.raqimbek.bankingutils.cli.services.userinteraction.UserInteraction;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
