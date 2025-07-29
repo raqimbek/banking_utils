@@ -8,7 +8,18 @@ import java.net.InetSocketAddress;
 public class Main {
   public static void main(String[] args) throws IOException {
 
-    HttpServer server = HttpServer.create(new InetSocketAddress(8081), 0);
+    var port = 8080;
+
+    try {
+      if (args.length > 0) {
+        port = Integer.parseInt(args[0]);
+      }
+    } catch (NumberFormatException e) {
+      System.err.println(e.getMessage());
+      System.err.println("Usage: java -jar bankingutils.jar [port]");
+    }
+
+    HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
     server.createContext("/card-number/validation", new CardValidationHandler());
 
@@ -17,6 +28,6 @@ public class Main {
     server.createContext("/mortgage/calculation", new MortgageCalculationHandler());
 
     server.start();
-    System.out.println("Server started on port 8081");
+    System.out.println("Server started on port " + port);
   }
 }
