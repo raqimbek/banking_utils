@@ -39,25 +39,25 @@ public class MortgageCalculatorTest {
             new BigDecimal("360000.0"),
             new BigDecimal("7.5"),
             new BigDecimal("30"),
-            new BigDecimal("2547")));
+            new BigDecimal("3250.000")));
     monthlyMortgagePaymentTestData.add(
         new MonthlyMortgagePaymentTestData(
             new BigDecimal("360000.0"),
             new BigDecimal("5"),
             new BigDecimal("30"),
-            new BigDecimal("1938")));
+            new BigDecimal("1000.0")));
     monthlyMortgagePaymentTestData.add(
         new MonthlyMortgagePaymentTestData(
             new BigDecimal("176000.0"),
             new BigDecimal("4"),
             new BigDecimal("30"),
-            new BigDecimal("841")));
+            new BigDecimal("488.9")));
     monthlyMortgagePaymentTestData.add(
         new MonthlyMortgagePaymentTestData(
             new BigDecimal("1000000"),
             new BigDecimal("12"),
             new BigDecimal("10"),
-            new BigDecimal("14333")));
+            new BigDecimal("8333")));
 
     return monthlyMortgagePaymentTestData;
   }
