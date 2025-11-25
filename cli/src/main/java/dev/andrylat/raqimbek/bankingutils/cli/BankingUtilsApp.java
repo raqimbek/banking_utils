@@ -61,9 +61,8 @@ public class BankingUtilsApp {
   }
 
   private static boolean isValidBankingServiceIndex(String input, Map<Integer, Dialog> dialogMap) {
-    // Regex pattern to match a non-negative integer
-    var regex = "^(0|[1-9]\\d*)$";
-    return input.matches(regex) && dialogMap.containsKey(Integer.parseInt(input));
+    final var NON_NEGATIVE_INTEGER_PATTERN = "^(0|[1-9]\\d*)$";
+    return input.matches(NON_NEGATIVE_INTEGER_PATTERN) && dialogMap.containsKey(Integer.parseInt(input));
   }
 
   private static Map<Integer, Dialog> getDialogMap() {
