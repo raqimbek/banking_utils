@@ -1,4 +1,4 @@
-package dev.andrylat.raqimbek.bankingutils.core.services.mortgagecalculator;
+package dev.andrylat.raqimbek.bankingutils.core.service.mortgagecalculator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

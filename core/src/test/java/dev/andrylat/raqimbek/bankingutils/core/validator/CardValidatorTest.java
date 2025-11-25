@@ -1,8 +1,7 @@
-package dev.andrylat.raqimbek.bankingutils.core.validators;
+package dev.andrylat.raqimbek.bankingutils.core.validator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import dev.andrylat.raqimbek.bankingutils.core.validators.CardValidator;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

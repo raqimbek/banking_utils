@@ -1,10 +1,10 @@
 package dev.andrylat.raqimbek.bankingutils.cli;
 
-import dev.andrylat.raqimbek.bankingutils.cli.dialogs.CardValidatorDialog;
-import dev.andrylat.raqimbek.bankingutils.cli.dialogs.MortgageCalculatorDialog;
-import dev.andrylat.raqimbek.bankingutils.cli.dialogs.Dialog;
-import dev.andrylat.raqimbek.bankingutils.cli.services.userinteraction.UserInteraction;
-import dev.andrylat.raqimbek.bankingutils.cli.services.userinteraction.CommandLineUserInteraction;
+import dev.andrylat.raqimbek.bankingutils.cli.dialog.CardValidatorDialog;
+import dev.andrylat.raqimbek.bankingutils.cli.dialog.MortgageCalculatorDialog;
+import dev.andrylat.raqimbek.bankingutils.cli.dialog.Dialog;
+import dev.andrylat.raqimbek.bankingutils.cli.service.userinteraction.UserInteraction;
+import dev.andrylat.raqimbek.bankingutils.cli.service.userinteraction.CommandLineUserInteraction;
 
 import java.util.Scanner;
 import java.util.Map;

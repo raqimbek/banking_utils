@@ -2,7 +2,7 @@ package dev.andrylat.raqimbek.bankingutils.web;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import dev.andrylat.raqimbek.bankingutils.core.validators.CardValidator;
+import dev.andrylat.raqimbek.bankingutils.core.validator.CardValidator;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.util.List;

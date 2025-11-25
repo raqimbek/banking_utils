@@ -1,4 +1,4 @@
-package dev.andrylat.raqimbek.bankingutils.core.validators;
+package dev.andrylat.raqimbek.bankingutils.core.validator;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,6 +1,6 @@
-package dev.andrylat.raqimbek.bankingutils.core.validators;
+package dev.andrylat.raqimbek.bankingutils.core.validator;
 
-import dev.andrylat.raqimbek.bankingutils.core.services.paymentsystemdeterminer.PaymentSystem;
+import dev.andrylat.raqimbek.bankingutils.core.service.paymentsystemdeterminer.PaymentSystem;
 
 import java.util.Arrays;
 import java.util.List;

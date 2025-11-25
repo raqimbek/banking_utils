@@ -1,8 +1,8 @@
-package dev.andrylat.raqimbek.bankingutils.cli.dialogs;
+package dev.andrylat.raqimbek.bankingutils.cli.dialog;
 
-import dev.andrylat.raqimbek.bankingutils.cli.services.userinteraction.UserInteraction;
-import dev.andrylat.raqimbek.bankingutils.core.validators.CardValidator;
-import dev.andrylat.raqimbek.bankingutils.core.services.paymentsystemdeterminer.PaymentSystemDeterminer;
+import dev.andrylat.raqimbek.bankingutils.cli.service.userinteraction.UserInteraction;
+import dev.andrylat.raqimbek.bankingutils.core.validator.CardValidator;
+import dev.andrylat.raqimbek.bankingutils.core.service.paymentsystemdeterminer.PaymentSystemDeterminer;
 import lombok.AllArgsConstructor;
 import java.util.List;
 

@@ -1,10 +1,10 @@
-package dev.andrylat.raqimbek.bankingutils.cli.dialogs;
+package dev.andrylat.raqimbek.bankingutils.cli.dialog;
 
-import dev.andrylat.raqimbek.bankingutils.core.services.mortgagecalculator.MortgageCalculator;
-import dev.andrylat.raqimbek.bankingutils.core.services.mortgagecalculator.MortgageData;
-import dev.andrylat.raqimbek.bankingutils.core.validators.MortgageInput;
-import dev.andrylat.raqimbek.bankingutils.core.validators.MortgageInputValidator;
-import dev.andrylat.raqimbek.bankingutils.cli.services.userinteraction.UserInteraction;
+import dev.andrylat.raqimbek.bankingutils.core.service.mortgagecalculator.MortgageCalculator;
+import dev.andrylat.raqimbek.bankingutils.core.service.mortgagecalculator.MortgageData;
+import dev.andrylat.raqimbek.bankingutils.core.validator.MortgageInput;
+import dev.andrylat.raqimbek.bankingutils.core.validator.MortgageInputValidator;
+import dev.andrylat.raqimbek.bankingutils.cli.service.userinteraction.UserInteraction;
 import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;

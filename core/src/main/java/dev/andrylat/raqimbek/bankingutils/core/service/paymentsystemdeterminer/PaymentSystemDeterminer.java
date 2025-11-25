@@ -1,4 +1,4 @@
-package dev.andrylat.raqimbek.bankingutils.core.services.paymentsystemdeterminer;
+package dev.andrylat.raqimbek.bankingutils.core.service.paymentsystemdeterminer;
 
 import java.util.Arrays;
 import java.util.Optional;

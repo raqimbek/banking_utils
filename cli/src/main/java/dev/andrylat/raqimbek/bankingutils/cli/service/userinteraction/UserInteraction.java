@@ -1,4 +1,4 @@
-package dev.andrylat.raqimbek.bankingutils.cli.services.userinteraction;
+package dev.andrylat.raqimbek.bankingutils.cli.service.userinteraction;
 
 import java.util.List;
 

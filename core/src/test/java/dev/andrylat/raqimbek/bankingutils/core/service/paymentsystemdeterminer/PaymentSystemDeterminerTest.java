@@ -1,9 +1,6 @@
-package dev.andrylat.raqimbek.bankingutils.core.services.paymentsystemdeterminer;
+package dev.andrylat.raqimbek.bankingutils.core.service.paymentsystemdeterminer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import dev.andrylat.raqimbek.bankingutils.core.services.paymentsystemdeterminer.PaymentSystemDeterminer;
-import org.junit.jupiter.api.Test;
 
 public class PaymentSystemDeterminerTest {
   PaymentSystemDeterminer paymentSystemDeterminer = new PaymentSystemDeterminer();
