@@ -20,12 +20,9 @@ public class MortgageCalculatorTest {
           if (testCaseData.annualInterestRate().compareTo(BigDecimal.ZERO) > 0
               && testCaseData.borrowedAmount().compareTo(BigDecimal.ZERO) > 0
               && testCaseData.numberOfYears().compareTo(BigDecimal.ZERO) > 0) {
+              var mortgageData = new MortgageData(testCaseData.borrowedAmount(), testCaseData.annualInterestRate(), testCaseData.numberOfYears());
             var actual =
-                mortgageCalculator.calculateMonthlyMortgagePayment(
-                    List.of(
-                        String.valueOf(testCaseData.borrowedAmount()),
-                        String.valueOf(testCaseData.annualInterestRate()),
-                        String.valueOf(testCaseData.numberOfYears())));
+                mortgageCalculator.calculateMonthlyMortgagePayment(mortgageData);
             assertEquals(testCaseData.expectedMonthlyPayment(), actual);
           }
         });

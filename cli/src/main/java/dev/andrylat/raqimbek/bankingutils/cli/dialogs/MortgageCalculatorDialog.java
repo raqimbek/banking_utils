@@ -1,11 +1,13 @@
 package dev.andrylat.raqimbek.bankingutils.cli.dialogs;
 
 import dev.andrylat.raqimbek.bankingutils.core.services.mortgagecalculator.MortgageCalculator;
+import dev.andrylat.raqimbek.bankingutils.core.services.mortgagecalculator.MortgageData;
+import dev.andrylat.raqimbek.bankingutils.core.validators.MortgageInput;
 import dev.andrylat.raqimbek.bankingutils.core.validators.MortgageInputValidator;
 import dev.andrylat.raqimbek.bankingutils.cli.services.userinteraction.UserInteraction;
 import lombok.AllArgsConstructor;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 @AllArgsConstructor
 public class MortgageCalculatorDialog implements Dialog {
@@ -14,11 +16,11 @@ public class MortgageCalculatorDialog implements Dialog {
   public void run() {
     var validator = new MortgageInputValidator();
     var calculator = new MortgageCalculator();
-    var inputList = promptForMonthlyMortgagePaymentCalculatorData();
-    var validationInfo = validator.validate(inputList);
+    var mortgageInput = promptForMonthlyMortgagePaymentCalculatorData();
+    var validationInfo = validator.validate(mortgageInput);
 
     if (validationInfo.isValid()) {
-      var monthlyPayment = calculator.calculateMonthlyMortgagePayment(inputList);
+      var monthlyPayment = calculator.calculateMonthlyMortgagePayment(new MortgageData(new BigDecimal(mortgageInput.borrowedAmount()), new BigDecimal(mortgageInput.annualInterestRate()), new BigDecimal(mortgageInput.numberOfYears())));
       var message =
           new StringBuilder("Your monthly mortgage payment is ").append(monthlyPayment).toString();
       userInteraction.write(message);
@@ -28,7 +30,7 @@ public class MortgageCalculatorDialog implements Dialog {
     }
   }
 
-  private List<String> promptForMonthlyMortgagePaymentCalculatorData() {
+  private MortgageInput promptForMonthlyMortgagePaymentCalculatorData() {
     String promptMessage =
         "Please enter information regarding your mortgage in the following order and separate lines:\n-amount of money you borrowed \n- annual interest rate\n- number of years you have to pay\n";
 
@@ -38,6 +40,6 @@ public class MortgageCalculatorDialog implements Dialog {
     var annualInterestRate = userInteraction.read();
     var numberOfYears = userInteraction.read();
 
-    return List.of(borrowedAmount, annualInterestRate, numberOfYears);
+    return new MortgageInput(borrowedAmount, annualInterestRate, numberOfYears);
   }
 }

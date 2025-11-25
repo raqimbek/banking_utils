@@ -2,13 +2,12 @@ package dev.andrylat.raqimbek.bankingutils.core.services.mortgagecalculator;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.List;
 
 public class MortgageCalculator {
-  public BigDecimal calculateMonthlyMortgagePayment(List<String> inputList) {
-    var borrowedAmount = new BigDecimal(inputList.get(0));
-    var annualInterestRate = new BigDecimal(inputList.get(1));
-    var numberOfYears = new BigDecimal(inputList.get(2));
+  public BigDecimal calculateMonthlyMortgagePayment(MortgageData mortgageData) {
+    var borrowedAmount = mortgageData.borrowedAmount();
+    var annualInterestRate = mortgageData.annualInterestRate();
+    var numberOfYears = mortgageData.numberOfYears();
 
     annualInterestRate = annualInterestRate.divide(new BigDecimal(100), RoundingMode.HALF_EVEN);
 

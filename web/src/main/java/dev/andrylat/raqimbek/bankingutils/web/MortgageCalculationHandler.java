@@ -3,10 +3,12 @@ package dev.andrylat.raqimbek.bankingutils.web;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import dev.andrylat.raqimbek.bankingutils.core.services.mortgagecalculator.MortgageCalculator;
+import dev.andrylat.raqimbek.bankingutils.core.services.mortgagecalculator.MortgageData;
+import dev.andrylat.raqimbek.bankingutils.core.validators.MortgageInput;
 import dev.andrylat.raqimbek.bankingutils.core.validators.MortgageInputValidator;
 import org.json.JSONObject;
 import java.io.IOException;
-import java.util.List;
+import java.math.BigDecimal;
 
 public class MortgageCalculationHandler implements HttpHandler {
   MortgageCalculator mortgageCalculator = new MortgageCalculator();
@@ -23,20 +25,21 @@ public class MortgageCalculationHandler implements HttpHandler {
         var requestParametersMap = httpRequestReader.getRequestBodyParametersMap(exchange);
         var requestJson = new JSONObject();
         requestParametersMap.forEach(requestJson::put);
-        var borrowedAmount = requestJson.getString("borrowedAmount");
-        var annualInterest = requestJson.getString("annualInterest");
-        var numberOfYears = requestJson.getString("numberOfYears");
+        var mortgageInput = new MortgageInput(requestJson.getString("borrowedAmount"),requestJson.getString("annualInterest"),requestJson.getString("numberOfYears"));
         var mortgageInputValidationInfo =
-            mortgageInputValidator.validate(List.of(borrowedAmount, annualInterest, numberOfYears));
+            mortgageInputValidator.validate(mortgageInput);
         var response = new JSONObject();
 
         if (mortgageInputValidationInfo.isValid()) {
+            var mortgageData = new MortgageData(
+                    new BigDecimal(mortgageInput.borrowedAmount()),
+                    new BigDecimal(mortgageInput.annualInterestRate()),
+                    new BigDecimal(mortgageInput.numberOfYears()));
+
           response.put(
               "monthly-mortgage-payment-amount",
               mortgageCalculator
-                  .calculateMonthlyMortgagePayment(
-                      List.of(borrowedAmount, annualInterest, numberOfYears))
-                  .toString());
+                  .calculateMonthlyMortgagePayment(mortgageData));
           httpResponder.respondJson(exchange, response, 200);
         } else {
           response.put("validation-messages", mortgageInputValidationInfo.errors());

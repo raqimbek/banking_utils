@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class CardValidator implements Validator {
+public class CardValidator implements Validator<List<String>> {
   public CardValidationInfo validate(List<String> inputList) {
     var errors = new ArrayList<String>();
 
