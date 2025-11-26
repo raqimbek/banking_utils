@@ -9,10 +9,10 @@ import java.util.List;
 @AllArgsConstructor
 public class CardValidatorDialog implements Dialog {
   private final UserInteraction userInteraction;
+  private final CardValidator validator;
+  private final PaymentSystemDeterminer paymentSystemDeterminer;
 
   public void run() {
-    var paymentSystemDeterminer = new PaymentSystemDeterminer();
-    var validator = new CardValidator();
     var inputList = promptForCardNumber();
     var validationInfo = validator.validate(List.of(inputList));
 
