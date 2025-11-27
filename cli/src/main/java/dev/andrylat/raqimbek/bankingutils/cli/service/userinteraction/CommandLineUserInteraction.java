@@ -16,7 +16,9 @@ public class CommandLineUserInteraction implements UserInteraction {
   }
 
   public void writeAll(List<String> messages) {
-    messages.forEach(m -> write(new StringBuilder("-> ").append(m).toString()));
+    if (messages != null && !messages.isEmpty()) {
+        messages.forEach(m -> write(new StringBuilder("-> ").append(m).toString()));
+    }
   }
 
   public String read() {
