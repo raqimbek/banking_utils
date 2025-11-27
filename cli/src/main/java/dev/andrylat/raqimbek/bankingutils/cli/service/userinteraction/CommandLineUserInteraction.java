@@ -12,7 +12,9 @@ public class CommandLineUserInteraction implements UserInteraction {
   private final Scanner scanner;
 
   public void write(String message) {
-    out.println(message);
+    if (message != null) {
+        out.println(message);
+    }
   }
 
   public void writeAll(List<String> messages) {
