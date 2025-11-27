@@ -1,17 +1,15 @@
 package dev.andrylat.raqimbek.bankingutils.cli.service.userinteraction;
 
+import lombok.AllArgsConstructor;
+
 import java.util.Scanner;
 import java.util.List;
 import java.io.PrintStream;
 
+@AllArgsConstructor
 public class CommandLineUserInteraction implements UserInteraction {
   private final PrintStream out;
   private final Scanner scanner;
-
-  public CommandLineUserInteraction(Scanner scanner, PrintStream out) {
-    this.out = out;
-    this.scanner = scanner;
-  }
 
   public void write(String message) {
     out.println(message);

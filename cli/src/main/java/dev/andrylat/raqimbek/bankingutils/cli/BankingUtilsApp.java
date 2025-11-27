@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class BankingUtilsApp {
   private static final UserInteraction COMMAND_LINE_USER_INTERACTION =
-      new CommandLineUserInteraction(new Scanner(System.in), System.out);
+      new CommandLineUserInteraction(System.out, new Scanner(System.in));
   private static final CardValidator CARD_VALIDATOR = new CardValidator();
   private static final PaymentSystemDeterminer PAYMENT_SYSTEM_DETERMINER = new PaymentSystemDeterminer();
   private static final MortgageInputValidator MORTGAGE_INPUT_VALIDATOR = new MortgageInputValidator();
