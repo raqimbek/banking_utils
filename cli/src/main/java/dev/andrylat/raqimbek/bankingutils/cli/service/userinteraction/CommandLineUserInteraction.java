@@ -24,4 +24,11 @@ public class CommandLineUserInteraction implements UserInteraction {
   public String read() {
     return scanner.nextLine();
   }
+
+  public int readInt() {
+      var input = scanner.nextInt();
+      scanner.nextLine();
+
+      return input;
+  }
 }

@@ -9,4 +9,6 @@ public interface UserInteraction {
   void writeAll(List<String> messages);
 
   String read();
+
+  int readInt();
 }
