@@ -2,6 +2,7 @@ package dev.andrylat.raqimbek.bankingutils.cli.service.userinteraction;
 
 import lombok.AllArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 import java.util.List;
 import java.io.PrintStream;
@@ -27,8 +28,8 @@ public class CommandLineUserInteraction implements UserInteraction {
     return scanner.nextLine();
   }
 
-  public int readInt() {
-      var input = scanner.nextInt();
+  public BigDecimal readBigDecimal() {
+      var input = scanner.nextBigDecimal();
       scanner.nextLine();
 
       return input;

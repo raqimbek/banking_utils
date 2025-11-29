@@ -4,15 +4,13 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import dev.andrylat.raqimbek.bankingutils.core.service.mortgagecalculator.MortgageCalculator;
 import dev.andrylat.raqimbek.bankingutils.core.service.mortgagecalculator.MortgageData;
-import dev.andrylat.raqimbek.bankingutils.core.validator.MortgageInput;
-import dev.andrylat.raqimbek.bankingutils.core.validator.MortgageInputValidator;
+import dev.andrylat.raqimbek.bankingutils.core.validator.MortgageDataValidator;
 import org.json.JSONObject;
 import java.io.IOException;
-import java.math.BigDecimal;
 
 public class MortgageCalculationHandler implements HttpHandler {
   MortgageCalculator mortgageCalculator = new MortgageCalculator();
-  MortgageInputValidator mortgageInputValidator = new MortgageInputValidator();
+  MortgageDataValidator mortgageDataValidator = new MortgageDataValidator();
   HttpRequestReader httpRequestReader = new HttpRequestReader();
   HttpResponder httpResponder = new HttpResponder();
 
@@ -25,17 +23,12 @@ public class MortgageCalculationHandler implements HttpHandler {
         var requestParametersMap = httpRequestReader.getRequestBodyParametersMap(exchange);
         var requestJson = new JSONObject();
         requestParametersMap.forEach(requestJson::put);
-        var mortgageInput = new MortgageInput(requestJson.getString("borrowedAmount"),requestJson.getString("annualInterest"),requestJson.getString("numberOfYears"));
+        var mortgageData = new MortgageData(requestJson.getBigDecimal("borrowedAmount"),requestJson.getBigDecimal("annualInterest"),requestJson.getBigDecimal("numberOfYears"));
         var mortgageInputValidationInfo =
-            mortgageInputValidator.validate(mortgageInput);
+            mortgageDataValidator.validate(mortgageData);
         var response = new JSONObject();
 
         if (mortgageInputValidationInfo.isValid()) {
-            var mortgageData = new MortgageData(
-                    new BigDecimal(mortgageInput.borrowedAmount()),
-                    new BigDecimal(mortgageInput.annualInterestRate()),
-                    new BigDecimal(mortgageInput.numberOfYears()));
-
           response.put(
               "monthly-mortgage-payment-amount",
               mortgageCalculator

@@ -1,5 +1,7 @@
 package dev.andrylat.raqimbek.bankingutils.core.service.paymentsystemdeterminer;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PaymentSystemDeterminerTest {
@@ -32,7 +34,7 @@ public class PaymentSystemDeterminerTest {
   //    assertEquals(expected, actual);
   //  }
 
-  private String getPaymentSystem(String cardNumber) {
+  private String getPaymentSystem(BigDecimal cardNumber) {
     return paymentSystemDeterminer.determinePaymentSystem(cardNumber).toString();
   }
 }

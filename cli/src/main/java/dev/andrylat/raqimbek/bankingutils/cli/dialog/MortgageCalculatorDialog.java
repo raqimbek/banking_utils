@@ -2,45 +2,56 @@ package dev.andrylat.raqimbek.bankingutils.cli.dialog;
 
 import dev.andrylat.raqimbek.bankingutils.core.service.mortgagecalculator.MortgageCalculator;
 import dev.andrylat.raqimbek.bankingutils.core.service.mortgagecalculator.MortgageData;
-import dev.andrylat.raqimbek.bankingutils.core.validator.MortgageInput;
-import dev.andrylat.raqimbek.bankingutils.core.validator.MortgageInputValidator;
+import dev.andrylat.raqimbek.bankingutils.core.validator.MortgageDataValidator;
 import dev.andrylat.raqimbek.bankingutils.cli.service.userinteraction.UserInteraction;
 import lombok.AllArgsConstructor;
 
-import java.math.BigDecimal;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @AllArgsConstructor
 public class MortgageCalculatorDialog implements Dialog {
-  private final UserInteraction USER_INTERACTION;
-  private final MortgageInputValidator VALIDATOR;
-  private final MortgageCalculator CALCULATOR;
+    private final UserInteraction USER_INTERACTION;
+    private final MortgageDataValidator VALIDATOR;
+    private final MortgageCalculator CALCULATOR;
 
 
-  public void run() {
-    var mortgageInput = promptForMonthlyMortgagePaymentCalculatorData();
-    var validationInfo = VALIDATOR.validate(mortgageInput);
+    public void run() {
+        promptForMonthlyMortgagePaymentCalculatorData().ifPresent(mortgageData -> {
+            var validationInfo = VALIDATOR.validate(mortgageData);
 
-    if (validationInfo.isValid()) {
-      var monthlyPayment = CALCULATOR.calculateMonthlyMortgagePayment(new MortgageData(new BigDecimal(mortgageInput.borrowedAmount()), new BigDecimal(mortgageInput.annualInterestRate()), new BigDecimal(mortgageInput.numberOfYears())));
-      var message =
-          new StringBuilder("Your monthly mortgage payment is ").append(monthlyPayment).toString();
-      USER_INTERACTION.write(message);
-    } else if (validationInfo.errors() != null) {
-      USER_INTERACTION.write("Input data is incorrect. Errors:");
-      USER_INTERACTION.writeAll(validationInfo.errors());
+            if (validationInfo.isValid()) {
+                var monthlyPayment = CALCULATOR.calculateMonthlyMortgagePayment(mortgageData);
+                var message =
+                        new StringBuilder("Your monthly mortgage payment is ").append(monthlyPayment).toString();
+                USER_INTERACTION.write(message);
+            } else if (validationInfo.errors() != null) {
+                USER_INTERACTION.write("Input data is incorrect. Errors:");
+                USER_INTERACTION.writeAll(validationInfo.errors());
+            }
+        });
     }
-  }
 
-  private MortgageInput promptForMonthlyMortgagePaymentCalculatorData() {
-    String promptMessage =
-        "Please enter information regarding your mortgage in the following order and separate lines:\n-amount of money you borrowed \n- annual interest rate\n- number of years you have to pay\n";
+    private Optional<MortgageData> promptForMonthlyMortgagePaymentCalculatorData() {
+        String promptMessage =
+                "Please enter information regarding your mortgage in the following order and separate lines:\n-amount of money you borrowed \n- annual interest rate\n- number of years you have to pay\n";
 
-    USER_INTERACTION.write(promptMessage);
+        USER_INTERACTION.write(promptMessage);
 
-    var borrowedAmount = USER_INTERACTION.read();
-    var annualInterestRate = USER_INTERACTION.read();
-    var numberOfYears = USER_INTERACTION.read();
+        try {
+            var borrowedAmount = USER_INTERACTION.readBigDecimal();
+            var annualInterestRate = USER_INTERACTION.readBigDecimal();
+            var numberOfYears = USER_INTERACTION.readBigDecimal();
 
-    return new MortgageInput(borrowedAmount, annualInterestRate, numberOfYears);
-  }
+            return Optional.of(new MortgageData(borrowedAmount, annualInterestRate, numberOfYears));
+        } catch (InputMismatchException exception) {
+            USER_INTERACTION.write("Mortgage data must be provided one value per line. Each line must contain only digits, with no spaces, hyphens, or other characters");
+        } catch (NoSuchElementException exception) {
+            USER_INTERACTION.write("The operation has been stopped by the user.");
+        }
+
+        return Optional.empty();
+
+    }
 }

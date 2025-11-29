@@ -8,7 +8,7 @@ import dev.andrylat.raqimbek.bankingutils.cli.service.userinteraction.CommandLin
 import dev.andrylat.raqimbek.bankingutils.core.service.mortgagecalculator.MortgageCalculator;
 import dev.andrylat.raqimbek.bankingutils.core.service.paymentsystemdeterminer.PaymentSystemDeterminer;
 import dev.andrylat.raqimbek.bankingutils.core.validator.CardValidator;
-import dev.andrylat.raqimbek.bankingutils.core.validator.MortgageInputValidator;
+import dev.andrylat.raqimbek.bankingutils.core.validator.MortgageDataValidator;
 
 import java.util.Scanner;
 import java.util.Map;
@@ -18,11 +18,11 @@ public class BankingUtilsApp {
       new CommandLineUserInteraction(System.out, new Scanner(System.in));
   private static final CardValidator CARD_VALIDATOR = new CardValidator();
   private static final PaymentSystemDeterminer PAYMENT_SYSTEM_DETERMINER = new PaymentSystemDeterminer();
-  private static final MortgageInputValidator MORTGAGE_INPUT_VALIDATOR = new MortgageInputValidator();
+  private static final MortgageDataValidator MORTGAGE_INPUT_VALIDATOR = new MortgageDataValidator();
   private static final MortgageCalculator  MORTGAGE_CALCULATOR = new MortgageCalculator();
   private static final Map<Integer, Dialog> DIALOG_MAP = Map.of(
         0,
-        new CardValidatorDialog(COMMAND_LINE_USER_INTERACTION, CARD_VALIDATOR, PAYMENT_SYSTEM_DETERMINER),
+        new CardValidatorDialog(COMMAND_LINE_USER_INTERACTION,CARD_VALIDATOR, PAYMENT_SYSTEM_DETERMINER),
         1,
         new MortgageCalculatorDialog(COMMAND_LINE_USER_INTERACTION, MORTGAGE_INPUT_VALIDATOR, MORTGAGE_CALCULATOR));
 

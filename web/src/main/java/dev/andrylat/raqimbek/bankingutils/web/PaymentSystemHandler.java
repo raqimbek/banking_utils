@@ -25,8 +25,8 @@ public class PaymentSystemHandler implements HttpHandler {
         var requestJson = new JSONObject();
         requestParametersMap.forEach(requestJson::put);
 
-        var cardNumber = requestJson.getString("cardNumber");
-        var cardValidationInfo = cardValidator.validate(List.of(cardNumber));
+        var cardNumber = requestJson.getBigDecimal("cardNumber");
+        var cardValidationInfo = cardValidator.validate(cardNumber);
         var response = new JSONObject();
 
         if (cardValidationInfo.isValid()) {

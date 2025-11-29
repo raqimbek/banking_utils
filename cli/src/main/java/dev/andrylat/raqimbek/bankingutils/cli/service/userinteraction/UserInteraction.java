@@ -1,5 +1,6 @@
 package dev.andrylat.raqimbek.bankingutils.cli.service.userinteraction;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface UserInteraction {
@@ -10,5 +11,5 @@ public interface UserInteraction {
 
   String read();
 
-  int readInt();
+  BigDecimal readBigDecimal();
 }

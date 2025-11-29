@@ -21,8 +21,8 @@ public class CardValidationHandler implements HttpHandler {
         var requestParametersMap = httpRequestReader.getRequestBodyParametersMap(exchange);
         var requestJson = new JSONObject();
         requestParametersMap.forEach(requestJson::put);
-        var cardNumber = requestJson.getString("cardNumber");
-        var cardValidationInfo = cardValidator.validate(List.of(cardNumber));
+        var cardNumber = requestJson.getBigDecimal("cardNumber");
+        var cardValidationInfo = cardValidator.validate(cardNumber);
         var response = new JSONObject();
 
         response.put("validation-result", cardValidationInfo.isValid());

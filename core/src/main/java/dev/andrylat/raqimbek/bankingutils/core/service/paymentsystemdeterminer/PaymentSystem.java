@@ -12,7 +12,7 @@ public enum PaymentSystem {
   AMERICAN_EXPRESS(List.of(34, 37));
 
   public static final int CARD_VALID_LENGTH = 16;
-  private List<Integer> prefixList = new ArrayList<>();
+  private final List<Integer> prefixList = new ArrayList<>();
 
   PaymentSystem(List<Integer> prefixes) {
     prefixList.addAll(prefixes);

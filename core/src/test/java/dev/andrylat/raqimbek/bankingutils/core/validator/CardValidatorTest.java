@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class CardValidatorTest {
@@ -13,24 +14,11 @@ public class CardValidatorTest {
   public void shouldReturnInvalidLengthErrorMessage() {
     var expected = "Length should be 16 symbols";
     var actual = "";
-    var errors = cardValidator.validate(List.of("1234")).errors();
+    var errors = cardValidator.validate(new BigDecimal("1234")).errors();
 
     if (!errors.isEmpty()) {
-      actual = errors.get(0);
+      actual = errors.getFirst();
     }
-    assertEquals(expected, actual);
-  }
-
-  @Test
-  public void shouldReturnOnlyDigitsErrorMessage() {
-    var expected = "Card Number must contain only digits";
-    var actual = "";
-    var errors = cardValidator.validate(List.of("123ab")).errors();
-
-    if (!errors.isEmpty()) {
-      actual = errors.get(0);
-    }
-
     assertEquals(expected, actual);
   }
 
@@ -38,10 +26,10 @@ public class CardValidatorTest {
   public void shouldReturnNoPaymentSystemErrorMessage() {
     var expected = "Payment System can't be determined";
     var actual = "";
-    var errors = cardValidator.validate(List.of("5625 2334 3010 9903")).errors();
+    var errors = cardValidator.validate(new BigDecimal("5625233430109903")).errors();
 
     if (!errors.isEmpty()) {
-      actual = errors.get(0);
+      actual = errors.getFirst();
     }
 
     assertEquals(expected, actual);
@@ -50,7 +38,7 @@ public class CardValidatorTest {
   @Test
   public void shouldReturnLuhnTestErrorMessage() {
     var expected = List.of("Card Number does not pass the Luhn Test");
-    var actual = cardValidator.validate(List.of("5425 2334 3010 9923")).errors();
+    var actual = cardValidator.validate(new BigDecimal("5425 2334 3010 9923")).errors();
 
     assertEquals(expected, actual);
   }
@@ -58,7 +46,7 @@ public class CardValidatorTest {
   @Test
   public void shouldReturnNoErrorMessage() {
     var expected = 0;
-    var errors = cardValidator.validate(List.of("5425 2334 3010 9903")).errors();
+    var errors = cardValidator.validate(new BigDecimal("5425 2334 3010 9903")).errors();
     var actual = errors.size();
 
     assertEquals(expected, actual);

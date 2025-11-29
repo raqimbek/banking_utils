@@ -1,30 +1,32 @@
 package dev.andrylat.raqimbek.bankingutils.core.validator;
 
+import dev.andrylat.raqimbek.bankingutils.core.service.mortgagecalculator.MortgageData;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MortgageInputValidator implements Validator<MortgageInput> {
+public class MortgageDataValidator implements Validator<MortgageData> {
   private static final double MINIMUM_BORROWED_AMOUNT = 1.0;
 
-  public MortgageInputValidationInfo validate(MortgageInput mortgageInput) {
-    if (mortgageInput != null) {
-      var errors = generateErrors(mortgageInput);
+  public MortgageDataValidationInfo validate(MortgageData mortgageData) {
+    if (mortgageData != null) {
+      var errors = generateErrors(mortgageData);
 
-      return new MortgageInputValidationInfo(errors.isEmpty(), errors);
+      return new MortgageDataValidationInfo(errors.isEmpty(), errors);
     } else {
-      return new MortgageInputValidationInfo(false, null);
+      return new MortgageDataValidationInfo(false, null);
     }
   }
 
-  private List<String> generateErrors(MortgageInput mortgageInput) {
+  private List<String> generateErrors(MortgageData mortgageData) {
     var errors = new ArrayList<String>();
 
-    if (!isPositiveDecimalNumbers(mortgageInput.borrowedAmount(), mortgageInput.annualInterestRate(), mortgageInput.numberOfYears())) {
+    if (!isPositiveDecimalNumbers(mortgageData.borrowedAmount().toString(), mortgageData.annualInterestRate().toString(), mortgageData.numberOfYears().toString())) {
       errors.add("Only positive decimal numbers are allowed.");
     }
 
-    if (!greaterThanMinimumBorrowedAmount(mortgageInput.borrowedAmount())) {
+    if (!greaterThanMinimumBorrowedAmount(mortgageData.borrowedAmount().toString())) {
       errors.add("Minimum borrowed amount must be greater than or equal to 1.");
     }
 
@@ -32,7 +34,7 @@ public class MortgageInputValidator implements Validator<MortgageInput> {
   }
 
   private static boolean isPositiveDecimalNumbers(String... numbers) {
-    return Arrays.stream(numbers).allMatch(MortgageInputValidator::isPositiveDecimalNumber);
+    return Arrays.stream(numbers).allMatch(MortgageDataValidator::isPositiveDecimalNumber);
   }
 
   private static boolean isPositiveDecimalNumber(String number) {
