@@ -1,6 +1,6 @@
-package dev.andrylat.raqimbek.bankingutils.core.validator;
+package dev.andrylat.raqimbek.bankingutils.core.cardutility.validator;
 
-import dev.andrylat.raqimbek.bankingutils.core.service.paymentsystemdeterminer.PaymentSystem;
+import dev.andrylat.raqimbek.bankingutils.core.cardutility.service.paymentsystemdeterminer.PaymentSystem;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -46,9 +46,13 @@ public class CardValidator implements Validator<BigDecimal> {
             var prefixes = paymentSystem.getPrefixes();
 
             hasValidPrefix = prefixes.stream().anyMatch(p -> cardNumber.toString().startsWith(p.toString()));
+
+            if (hasValidPrefix) {
+                return true;
+            }
         }
 
-        return hasValidPrefix;
+        return false;
     }
 
     private boolean hasValidLength(BigDecimal cardNumber, int validLength) {

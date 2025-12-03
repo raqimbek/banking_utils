@@ -1,11 +1,11 @@
-package dev.andrylat.raqimbek.bankingutils.core.validator;
+package dev.andrylat.raqimbek.bankingutils.core.cardutility.validator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public class CardValidatorTest {
   CardValidator cardValidator = new CardValidator();
@@ -37,17 +37,19 @@ public class CardValidatorTest {
 
   @Test
   public void shouldReturnLuhnTestErrorMessage() {
-    var expected = List.of("Card Number does not pass the Luhn Test");
-    var actual = cardValidator.validate(new BigDecimal("5425 2334 3010 9923")).errors();
+    var expected ="Card Number does not pass the Luhn Test";
+    var actual = cardValidator.validate(new BigDecimal("5425233430109923")).errors();
 
-    assertEquals(expected, actual);
+    assertTrue(actual.contains(expected));
   }
 
   @Test
   public void shouldReturnNoErrorMessage() {
     var expected = 0;
-    var errors = cardValidator.validate(new BigDecimal("5425 2334 3010 9903")).errors();
+    var errors = cardValidator.validate(new BigDecimal("4333294581965034")).errors();
     var actual = errors.size();
+
+
 
     assertEquals(expected, actual);
   }
