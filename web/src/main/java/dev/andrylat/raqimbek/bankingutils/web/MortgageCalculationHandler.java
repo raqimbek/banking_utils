@@ -2,9 +2,9 @@ package dev.andrylat.raqimbek.bankingutils.web;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import dev.andrylat.raqimbek.bankingutils.core.service.mortgagecalculator.MortgageCalculator;
-import dev.andrylat.raqimbek.bankingutils.core.service.mortgagecalculator.MortgageData;
-import dev.andrylat.raqimbek.bankingutils.core.validator.MortgageDataValidator;
+import dev.andrylat.raqimbek.bankingutils.core.mortgageutility.service.MortgageCalculator;
+import dev.andrylat.raqimbek.bankingutils.core.mortgageutility.service.MortgageData;
+import dev.andrylat.raqimbek.bankingutils.core.mortgageutility.validator.MortgageDataValidator;
 import org.json.JSONObject;
 import java.io.IOException;
 

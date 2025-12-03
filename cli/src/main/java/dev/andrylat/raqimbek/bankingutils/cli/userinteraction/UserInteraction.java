@@ -1,4 +1,4 @@
-package dev.andrylat.raqimbek.bankingutils.cli.service.userinteraction;
+package dev.andrylat.raqimbek.bankingutils.cli.userinteraction;
 
 import java.math.BigDecimal;
 import java.util.List;

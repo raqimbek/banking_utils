@@ -1,4 +1,4 @@
-package dev.andrylat.raqimbek.bankingutils.core.service.paymentsystemdeterminer;
+package dev.andrylat.raqimbek.bankingutils.core.cardutility.service.paymentsystemdeterminer;
 
 import java.math.BigDecimal;
 

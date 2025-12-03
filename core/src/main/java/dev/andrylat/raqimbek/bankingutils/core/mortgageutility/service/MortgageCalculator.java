@@ -1,4 +1,4 @@
-package dev.andrylat.raqimbek.bankingutils.core.service.mortgagecalculator;
+package dev.andrylat.raqimbek.bankingutils.core.mortgageutility.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

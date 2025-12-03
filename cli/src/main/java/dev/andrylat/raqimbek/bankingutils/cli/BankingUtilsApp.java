@@ -3,12 +3,12 @@ package dev.andrylat.raqimbek.bankingutils.cli;
 import dev.andrylat.raqimbek.bankingutils.cli.dialog.CardValidatorDialog;
 import dev.andrylat.raqimbek.bankingutils.cli.dialog.MortgageCalculatorDialog;
 import dev.andrylat.raqimbek.bankingutils.cli.dialog.Dialog;
-import dev.andrylat.raqimbek.bankingutils.cli.service.userinteraction.UserInteraction;
-import dev.andrylat.raqimbek.bankingutils.cli.service.userinteraction.CommandLineUserInteraction;
-import dev.andrylat.raqimbek.bankingutils.core.service.mortgagecalculator.MortgageCalculator;
-import dev.andrylat.raqimbek.bankingutils.core.service.paymentsystemdeterminer.PaymentSystemDeterminer;
-import dev.andrylat.raqimbek.bankingutils.core.validator.CardValidator;
-import dev.andrylat.raqimbek.bankingutils.core.validator.MortgageDataValidator;
+import dev.andrylat.raqimbek.bankingutils.cli.userinteraction.UserInteraction;
+import dev.andrylat.raqimbek.bankingutils.cli.userinteraction.CommandLineUserInteraction;
+import dev.andrylat.raqimbek.bankingutils.core.mortgageutility.service.MortgageCalculator;
+import dev.andrylat.raqimbek.bankingutils.core.cardutility.service.paymentsystemdeterminer.PaymentSystemDeterminer;
+import dev.andrylat.raqimbek.bankingutils.core.cardutility.validator.CardValidator;
+import dev.andrylat.raqimbek.bankingutils.core.mortgageutility.validator.MortgageDataValidator;
 
 import java.util.Scanner;
 import java.util.Map;

@@ -1,9 +1,9 @@
 package dev.andrylat.raqimbek.bankingutils.cli.dialog;
 
-import dev.andrylat.raqimbek.bankingutils.core.service.mortgagecalculator.MortgageCalculator;
-import dev.andrylat.raqimbek.bankingutils.core.service.mortgagecalculator.MortgageData;
-import dev.andrylat.raqimbek.bankingutils.core.validator.MortgageDataValidator;
-import dev.andrylat.raqimbek.bankingutils.cli.service.userinteraction.UserInteraction;
+import dev.andrylat.raqimbek.bankingutils.core.mortgageutility.service.MortgageCalculator;
+import dev.andrylat.raqimbek.bankingutils.core.mortgageutility.service.MortgageData;
+import dev.andrylat.raqimbek.bankingutils.core.mortgageutility.validator.MortgageDataValidator;
+import dev.andrylat.raqimbek.bankingutils.cli.userinteraction.UserInteraction;
 import lombok.AllArgsConstructor;
 
 import java.util.InputMismatchException;
@@ -46,7 +46,7 @@ public class MortgageCalculatorDialog implements Dialog {
 
             return Optional.of(new MortgageData(borrowedAmount, annualInterestRate, numberOfYears));
         } catch (InputMismatchException exception) {
-            USER_INTERACTION.write("Mortgage data must be provided one value per line. Each line must contain only digits, with no spaces, hyphens, or other characters");
+            USER_INTERACTION.write("Mortgage data must be provided one value per line. Each line must contain only digits, with no spaces, hyphens, or other characters, and the line must not be empty.");
         } catch (NoSuchElementException exception) {
             USER_INTERACTION.write("The operation has been stopped by the user.");
         }

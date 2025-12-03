@@ -1,6 +1,7 @@
-package dev.andrylat.raqimbek.bankingutils.core.validator;
+package dev.andrylat.raqimbek.bankingutils.core.mortgageutility.validator;
 
-import dev.andrylat.raqimbek.bankingutils.core.service.mortgagecalculator.MortgageData;
+import dev.andrylat.raqimbek.bankingutils.core.mortgageutility.service.MortgageData;
+import dev.andrylat.raqimbek.bankingutils.core.cardutility.validator.Validator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,13 +10,13 @@ import java.util.List;
 public class MortgageDataValidator implements Validator<MortgageData> {
   private static final double MINIMUM_BORROWED_AMOUNT = 1.0;
 
-  public MortgageDataValidationInfo validate(MortgageData mortgageData) {
+  public MortgageDataValidationResult validate(MortgageData mortgageData) {
     if (mortgageData != null) {
       var errors = generateErrors(mortgageData);
 
-      return new MortgageDataValidationInfo(errors.isEmpty(), errors);
+      return new MortgageDataValidationResult(errors.isEmpty(), errors);
     } else {
-      return new MortgageDataValidationInfo(false, null);
+      return new MortgageDataValidationResult(false, null);
     }
   }
 
