@@ -23,19 +23,19 @@ public class MortgageCalculationHandler implements HttpHandler {
         var requestParametersMap = httpRequestReader.getRequestBodyParametersMap(exchange);
         var requestJson = new JSONObject();
         requestParametersMap.forEach(requestJson::put);
-        var mortgageData = new MortgageData(requestJson.getBigDecimal("borrowedAmount"),requestJson.getBigDecimal("annualInterest"),requestJson.getBigDecimal("numberOfYears"));
-        var mortgageInputValidationInfo =
+        var mortgageData = new MortgageData(requestJson.getBigDecimal("borrowedAmount"),requestJson.getBigDecimal("annualInterest"),requestJson.getBigDecimal("numberOfYearsToPay"));
+        var mortgageInputValidationResult =
             mortgageDataValidator.validate(mortgageData);
         var response = new JSONObject();
 
-        if (mortgageInputValidationInfo.isValid()) {
+        if (mortgageInputValidationResult.isValid()) {
           response.put(
               "monthly-mortgage-payment-amount",
               mortgageCalculator
                   .calculateMonthlyMortgagePayment(mortgageData));
           httpResponder.respondJson(exchange, response, 200);
         } else {
-          response.put("validation-messages", mortgageInputValidationInfo.errors());
+          response.put("validation-messages", mortgageInputValidationResult.errors());
           httpResponder.respondJson(exchange, response, 400);
         }
       }

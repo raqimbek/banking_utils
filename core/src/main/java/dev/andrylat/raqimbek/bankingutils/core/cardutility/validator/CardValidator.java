@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class CardValidator implements Validator<BigDecimal> {
-    public CardValidationInfo validate(BigDecimal cardNumber) {
+    public CardValidationResult validate(BigDecimal cardNumber) {
         var errors = generateErrors(cardNumber);
 
-        return new CardValidationInfo(errors.isEmpty(), errors);
+        return new CardValidationResult(errors.isEmpty(), errors);
     }
 
     private List<String> generateErrors(BigDecimal cardNumber) {
