@@ -23,7 +23,7 @@ public class MortgageDataValidator implements Validator<MortgageData> {
   private List<String> generateErrors(MortgageData mortgageData) {
     var errors = new ArrayList<String>();
 
-    if (!isPositiveDecimalNumbers(mortgageData.borrowedAmount().toString(), mortgageData.annualInterestRate().toString(), mortgageData.numberOfYears().toString())) {
+    if (!isPositiveDecimalNumbers(mortgageData.borrowedAmount().toString(), mortgageData.annualInterestRate().toString(), mortgageData.numberOfYearsToPay().toString())) {
       errors.add("Only positive decimal numbers are allowed.");
     }
 

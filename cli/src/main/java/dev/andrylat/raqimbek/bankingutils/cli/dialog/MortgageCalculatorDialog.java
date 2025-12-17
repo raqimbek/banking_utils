@@ -42,9 +42,9 @@ public class MortgageCalculatorDialog implements Dialog {
         try {
             var borrowedAmount = USER_INTERACTION.readBigDecimal();
             var annualInterestRate = USER_INTERACTION.readBigDecimal();
-            var numberOfYears = USER_INTERACTION.readBigDecimal();
+            var numberOfYearsToPay = USER_INTERACTION.readBigDecimal();
 
-            return Optional.of(new MortgageData(borrowedAmount, annualInterestRate, numberOfYears));
+            return Optional.of(new MortgageData(borrowedAmount, annualInterestRate, numberOfYearsToPay));
         } catch (InputMismatchException exception) {
             USER_INTERACTION.write("Mortgage data must be provided one value per line. Each line must contain only digits, with no spaces, hyphens, or other characters, and the line must not be empty.");
         } catch (NoSuchElementException exception) {
