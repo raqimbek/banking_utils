@@ -27,7 +27,7 @@ paths:
         200:
           description: Validation was successful.
           schema:
-            $ref: '#/definitions/ValidationInfo'
+            $ref: '#/definitions/ValidationResult'
         400:
           description: Validation has failed.
   /card-number/payment-system:
@@ -79,7 +79,7 @@ paths:
         400:
           description: Bad request. The monthly mortgage payment cannot be calculated based on the provided parameters.
 definitions:
-  ValidationInfo:
+  ValidationResult:
     type: object
     properties:
       isValid:
