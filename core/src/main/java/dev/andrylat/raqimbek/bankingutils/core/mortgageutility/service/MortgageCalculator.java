@@ -160,11 +160,11 @@ public class MortgageCalculator {
     private final BigDecimal MACLAURIN_SERIES_EXPANSION_COEFFICIENT = new BigDecimal("12");
 
     public BigDecimal calculateMonthlyMortgagePayment(MortgageData mortgageData) {
-        final BigDecimal borrowedAmount = mortgageData.borrowedAmount();
-        final BigDecimal annualInterestRate = convertPercentToDecimal(mortgageData.annualInterestRate());
-        final BigDecimal numberOfYearsToPay = mortgageData.numberOfYearsToPay();
-        final BigDecimal numberOfMonthlyPayments = numberOfYearsToPay.multiply(MONTHS_PER_YEAR);
-        final BigDecimal total_repayment_per_single_currency_unit = getTotalRepaymentPerSingleCurrencyUnit(annualInterestRate, numberOfYearsToPay);
+        BigDecimal borrowedAmount = mortgageData.borrowedAmount();
+        BigDecimal annualInterestRate = convertPercentToDecimal(mortgageData.annualInterestRate());
+        BigDecimal numberOfYearsToPay = mortgageData.numberOfYearsToPay();
+        BigDecimal numberOfMonthlyPayments = numberOfYearsToPay.multiply(MONTHS_PER_YEAR);
+        BigDecimal total_repayment_per_single_currency_unit = getTotalRepaymentPerSingleCurrencyUnit(annualInterestRate, numberOfYearsToPay);
 
         return borrowedAmount
                 .multiply(total_repayment_per_single_currency_unit)
@@ -172,10 +172,10 @@ public class MortgageCalculator {
     }
 
     private BigDecimal getTotalRepaymentPerSingleCurrencyUnit(BigDecimal annualInterestRate, BigDecimal numberOfYearsToPay) {
-        final BigDecimal linearInterestApproximationPerSingleCurrencyUnit = annualInterestRate
+        BigDecimal linearInterestApproximationPerSingleCurrencyUnit = annualInterestRate
                 .multiply(getAverageOf(numberOfYearsToPay, BigDecimal.ZERO));
 
-        final BigDecimal quadraticCorrectionPerSingleCurrencyUnit = annualInterestRate
+        BigDecimal quadraticCorrectionPerSingleCurrencyUnit = annualInterestRate
                 .multiply(numberOfYearsToPay)
                 .pow(2)
                 .divide(MACLAURIN_SERIES_EXPANSION_COEFFICIENT, 4, RoundingMode.HALF_EVEN);
