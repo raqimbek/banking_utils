@@ -25,7 +25,7 @@ public class CardValidator implements Validator<BigDecimal> {
 
         if (!hasValidLength) {
             errors.add(
-                    new StringBuilder("Length should be ").append(validLength).append(" symbols").toString());
+                    "Length should be %s symbols".formatted(validLength));
         }
 
         if (!hasValidPrefix) {
