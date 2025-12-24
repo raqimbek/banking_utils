@@ -18,9 +18,9 @@ public class CardValidatorDialog implements Dialog {
 
     public void run() {
         promptForCardNumber().ifPresent(cardNumber -> {
-            var validationInfo = validator.validate(cardNumber);
+            var validationResult = validator.validate(cardNumber);
 
-            if (validationInfo.isValid()) {
+            if (validationResult.isValid()) {
                 var paymentSystemOptional = paymentSystemDeterminer.determinePaymentSystem(cardNumber);
                 var message =
                         paymentSystemOptional
@@ -29,9 +29,9 @@ public class CardValidatorDialog implements Dialog {
                                 .orElse("Something went wrong... Payment system could not be determined.");
 
                 userInteraction.write(message);
-            } else if (validationInfo.errors() != null) {
+            } else if (validationResult.errors() != null) {
                 userInteraction.write("Card number is not valid. Errors:");
-                userInteraction.writeAll(validationInfo.errors());
+                userInteraction.writeAll(validationResult.errors());
             }
         });
 
