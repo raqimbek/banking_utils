@@ -26,10 +26,10 @@ public class PaymentSystemHandler implements HttpHandler {
         requestParametersMap.forEach(requestJson::put);
 
         var cardNumber = requestJson.getBigDecimal("cardNumber");
-        var cardValidationInfo = cardValidator.validate(cardNumber);
+        var cardValidationResult = cardValidator.validate(cardNumber);
         var response = new JSONObject();
 
-        if (cardValidationInfo.isValid()) {
+        if (cardValidationResult.isValid()) {
           var paymentSystemOptional = paymentSystemDeterminer.determinePaymentSystem(cardNumber);
 
           if (paymentSystemOptional.isPresent()) {
@@ -48,7 +48,7 @@ public class PaymentSystemHandler implements HttpHandler {
               "errors",
               List.of(
                   Map.of("validation-result", false),
-                  Map.of("validation-messages", cardValidationInfo.errors())));
+                  Map.of("validation-messages", cardValidationResult.errors())));
           httpResponder.respondJson(exchange, response, 400);
         }
       }
