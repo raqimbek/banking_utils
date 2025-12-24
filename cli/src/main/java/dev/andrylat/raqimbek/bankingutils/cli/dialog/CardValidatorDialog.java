@@ -25,10 +25,7 @@ public class CardValidatorDialog implements Dialog {
                 var message =
                         paymentSystemOptional
                                 .map(
-                                        paymentSystem ->
-                                                new StringBuilder("Card number is valid. Payment System: ")
-                                                        .append(paymentSystem)
-                                                        .toString())
+                                        "Card number is valid. Payment System: %s"::formatted)
                                 .orElse("Something went wrong... Payment system could not be determined.");
 
                 userInteraction.write(message);
