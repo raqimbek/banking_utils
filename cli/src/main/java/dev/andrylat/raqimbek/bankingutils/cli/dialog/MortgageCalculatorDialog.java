@@ -19,17 +19,18 @@ public class MortgageCalculatorDialog implements Dialog {
 
     public void run() {
         promptForMonthlyMortgagePaymentCalculatorData().ifPresent(mortgageData -> {
-            var validationInfo = VALIDATOR.validate(mortgageData);
+            var validationResult = VALIDATOR.validate(mortgageData);
+            var message = "Input data is incorrect. Errors:";
 
-            if (validationInfo.isValid()) {
+            if (validationResult.isValid() && validationResult.errors() == null) {
                 var monthlyPayment = CALCULATOR.calculateMonthlyMortgagePayment(mortgageData);
-                var message =
-                        new StringBuilder("Your monthly mortgage payment is ").append(monthlyPayment).toString();
+                message = "Your monthly mortgage payment is %s".formatted(monthlyPayment);
+
                 USER_INTERACTION.write(message);
-            } else if (validationInfo.errors() != null) {
-                USER_INTERACTION.write("Input data is incorrect. Errors:");
-                USER_INTERACTION.writeAll(validationInfo.errors());
             }
+            USER_INTERACTION.write(message);
+            USER_INTERACTION.writeAll(validationResult.errors());
+
         });
     }
 
