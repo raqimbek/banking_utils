@@ -17,9 +17,7 @@ public class MortgageCalculatorTest {
 
     testCasesData.forEach(
         (testCaseData) -> {
-          if (testCaseData.annualInterestRate().compareTo(BigDecimal.ZERO) > 0
-              && testCaseData.borrowedAmount().compareTo(BigDecimal.ZERO) > 0
-              && testCaseData.numberOfYears().compareTo(BigDecimal.ZERO) > 0) {
+          if (hasPositiveFinancialInputs(testCaseData)) {
               var mortgageData = new MortgageData(testCaseData.borrowedAmount(), testCaseData.annualInterestRate(), testCaseData.numberOfYears());
             var actual =
                 mortgageCalculator.calculateMonthlyMortgagePayment(mortgageData);
@@ -58,4 +56,10 @@ public class MortgageCalculatorTest {
 
     return monthlyMortgagePaymentTestData;
   }
+
+  private boolean hasPositiveFinancialInputs(MonthlyMortgagePaymentTestData testCaseData) {
+      return testCaseData.annualInterestRate().compareTo(BigDecimal.ZERO) > 0
+              && testCaseData.borrowedAmount().compareTo(BigDecimal.ZERO) > 0
+              && testCaseData.numberOfYears().compareTo(BigDecimal.ZERO) > 0;
+    }
 }
