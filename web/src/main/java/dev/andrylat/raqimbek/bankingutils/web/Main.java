@@ -6,28 +6,29 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 public class Main {
-  public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
-    var port = 8080;
+        var port = 0;
 
-    try {
-      if (args.length > 0) {
-        port = Integer.parseInt(args[0]);
-      }
-    } catch (NumberFormatException e) {
-      System.err.println(e.getMessage());
-      System.err.println("Usage: java -jar bankingutils.jar [port]");
+        try {
+            if (args.length > 0) {
+                port = Integer.parseInt(args[0]);
+            }
+
+            HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+            server.createContext("/card-number/validation", new CardValidationHandler());
+
+            server.createContext("/card-number/payment-system", new PaymentSystemHandler());
+
+            server.createContext("/mortgage/calculation", new MortgageCalculationHandler());
+
+            server.start();
+            System.out.println("Server started on port " + port);
+        } catch (NumberFormatException e) {
+            System.err.println(e.getMessage());
+            System.err.println("Usage: java -jar bankingutils.jar [port]");
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
-
-    HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-
-    server.createContext("/card-number/validation", new CardValidationHandler());
-
-    server.createContext("/card-number/payment-system", new PaymentSystemHandler());
-
-    server.createContext("/mortgage/calculation", new MortgageCalculationHandler());
-
-    server.start();
-    System.out.println("Server started on port " + port);
-  }
 }
