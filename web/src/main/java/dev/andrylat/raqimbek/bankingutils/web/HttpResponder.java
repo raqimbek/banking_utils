@@ -19,7 +19,7 @@ public class HttpResponder {
   public void respondJson(HttpExchange exchange, JSONObject responseDataJson, int statusCode)
       throws IOException {
 
-    exchange.getResponseHeaders().set("Content-Type", "application/json");
+    exchange.getResponseHeaders().set("Content-Type", "application/json; charset=utf-8");
 
     respond(exchange, responseDataJson.toString(), statusCode);
   }
