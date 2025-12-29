@@ -20,7 +20,7 @@ public class PaymentSystemHandler implements HttpHandler {
         var contentType = exchange.getRequestHeaders().getFirst("Content-Type");
 
         if (exchange.getRequestMethod().equals("POST")) {
-            if (contentType != null && contentType.startsWith("application/x-www-form-urlencoded")) {
+            if (contentType != null && contentType.startsWith("application/json")) {
                 var cardNumber = httpRequestReader.getRequestParameterAsBigDecimal("cardNumber", exchange);
                 var cardValidationResult = cardValidator.validate(cardNumber);
                 var response = new JSONObject();
