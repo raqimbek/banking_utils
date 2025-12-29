@@ -16,7 +16,7 @@ public class CardValidationHandler implements HttpHandler {
     var contentType = exchange.getRequestHeaders().getFirst("Content-Type");
 
     if (exchange.getRequestMethod().equals("POST")) {
-      if (contentType != null && contentType.startsWith("application/x-www-form-urlencoded")) {
+      if (contentType != null && contentType.startsWith("application/json")) {
         var requestParametersMap = httpRequestReader.getRequestBodyParametersMap(exchange);
         var requestJson = new JSONObject();
         requestParametersMap.forEach(requestJson::put);
