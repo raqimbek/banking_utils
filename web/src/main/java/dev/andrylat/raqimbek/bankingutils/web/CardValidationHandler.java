@@ -7,32 +7,29 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 public class CardValidationHandler implements HttpHandler {
-  CardValidator cardValidator = new CardValidator();
-  HttpRequestReader httpRequestReader = new HttpRequestReader();
-  HttpResponder httpResponder = new HttpResponder();
+    CardValidator cardValidator = new CardValidator();
+    HttpRequestReader httpRequestReader = new HttpRequestReader();
+    HttpResponder httpResponder = new HttpResponder();
 
-  @Override
-  public void handle(HttpExchange exchange) throws IOException {
-    var contentType = exchange.getRequestHeaders().getFirst("Content-Type");
+    @Override
+    public void handle(HttpExchange exchange) throws IOException {
+        var contentType = exchange.getRequestHeaders().getFirst("Content-Type");
 
-    if (exchange.getRequestMethod().equals("POST")) {
-      if (contentType != null && contentType.startsWith("application/json")) {
-        var requestParametersMap = httpRequestReader.getRequestBodyParametersMap(exchange);
-        var requestJson = new JSONObject();
-        requestParametersMap.forEach(requestJson::put);
-        var cardNumber = requestJson.getBigDecimal("cardNumber");
-        var cardValidationResult = cardValidator.validate(cardNumber);
-        var response = new JSONObject();
+        if (exchange.getRequestMethod().equals("POST")) {
+            if (contentType != null && contentType.startsWith("application/json")) {
+                var cardNumber = httpRequestReader.getRequestParameterAsBigDecimal("cardNumber", exchange);
+                var cardValidationResult = cardValidator.validate(cardNumber);
+                var response = new JSONObject();
 
-        response.put("validation-result", cardValidationResult.isValid());
+                response.put("validation-result", cardValidationResult.isValid());
 
-        if (cardValidationResult.isValid()) {
-          httpResponder.respondJson(exchange, response, 200);
-        } else {
-          response.put("validation-messages", cardValidationResult.errors());
-          httpResponder.respondJson(exchange, response, 400);
+                if (cardValidationResult.isValid()) {
+                    httpResponder.respondJson(exchange, response, 200);
+                } else {
+                    response.put("validation-messages", cardValidationResult.errors());
+                    httpResponder.respondJson(exchange, response, 400);
+                }
+            }
         }
-      }
     }
-  }
 }

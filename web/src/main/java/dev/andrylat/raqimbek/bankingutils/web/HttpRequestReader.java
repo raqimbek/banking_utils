@@ -1,9 +1,11 @@
 package dev.andrylat.raqimbek.bankingutils.web;
 
 import com.sun.net.httpserver.HttpExchange;
+import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.*;
 
 public class HttpRequestReader {
@@ -33,5 +35,17 @@ public class HttpRequestReader {
     parameterList.forEach(p -> parameterMap.put(p.getFirst(), p.get(1)));
 
     return parameterMap;
+  }
+
+  public JSONObject getRequestAsJson(HttpExchange exchange) throws IOException {
+      var requestParametersMap = getRequestBodyParametersMap(exchange);
+      var requestJson = new JSONObject();
+      requestParametersMap.forEach(requestJson::put);
+
+      return requestJson;
+  }
+
+  public BigDecimal getRequestParameterAsBigDecimal(String parameter, HttpExchange exchange) throws IOException {
+      return getRequestAsJson(exchange).getBigDecimal(parameter);
   }
 }
