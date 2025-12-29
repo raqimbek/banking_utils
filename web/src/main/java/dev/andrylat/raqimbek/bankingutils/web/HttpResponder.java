@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class HttpResponder {
   private void respond(HttpExchange exchange, String response, int statusCode) throws IOException {
@@ -11,7 +12,7 @@ public class HttpResponder {
 
     exchange.sendResponseHeaders(statusCode, response.length());
 
-    outputStream.write(response.getBytes());
+    outputStream.write(response.getBytes(StandardCharsets.UTF_8));
     outputStream.close();
   }
 
