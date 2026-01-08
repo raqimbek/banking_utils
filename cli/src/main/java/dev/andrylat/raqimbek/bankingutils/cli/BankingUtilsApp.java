@@ -14,17 +14,17 @@ import java.util.Scanner;
 import java.util.Map;
 
 public class BankingUtilsApp {
-  private static final UserInteraction COMMAND_LINE_USER_INTERACTION =
+  private static final UserInteraction commandLineUserInteraction =
       new CommandLineUserInteraction(System.out, new Scanner(System.in));
-  private static final CardValidator CARD_VALIDATOR = new CardValidator();
-  private static final PaymentSystemDeterminer PAYMENT_SYSTEM_DETERMINER = new PaymentSystemDeterminer();
-  private static final MortgageDataValidator MORTGAGE_INPUT_VALIDATOR = new MortgageDataValidator();
-  private static final MortgageCalculator  MORTGAGE_CALCULATOR = new MortgageCalculator();
+  private static final CardValidator cardValidator = new CardValidator();
+  private static final PaymentSystemDeterminer paymentSystemDeterminer = new PaymentSystemDeterminer();
+  private static final MortgageDataValidator mortgageDataValidator = new MortgageDataValidator();
+  private static final MortgageCalculator mortgageCalculator = new MortgageCalculator();
   private static final Map<Integer, Dialog> DIALOG_MAP = Map.of(
         0,
-        new CardValidatorDialog(COMMAND_LINE_USER_INTERACTION,CARD_VALIDATOR, PAYMENT_SYSTEM_DETERMINER),
+        new CardValidatorDialog(commandLineUserInteraction, cardValidator, paymentSystemDeterminer),
         1,
-        new MortgageCalculatorDialog(COMMAND_LINE_USER_INTERACTION, MORTGAGE_INPUT_VALIDATOR, MORTGAGE_CALCULATOR));
+        new MortgageCalculatorDialog(commandLineUserInteraction, mortgageDataValidator, mortgageCalculator));
 
   public static void main(String[] args) {
     selectDialog().run();
@@ -52,15 +52,15 @@ public class BankingUtilsApp {
 
     var promptMessage = getBankingServiceSelectionPromptMessage();
 
-    COMMAND_LINE_USER_INTERACTION.write(promptMessage);
+    commandLineUserInteraction.write(promptMessage);
 
     var selectedBankingService = -1;
 
     do {
-      var input = COMMAND_LINE_USER_INTERACTION.read();
+      var input = commandLineUserInteraction.read();
 
       if (!isValidBankingServiceIndex(input)) {
-        COMMAND_LINE_USER_INTERACTION.write(
+        commandLineUserInteraction.write(
             "Please write only a number representing an index of a service.");
       }
 
