@@ -29,12 +29,20 @@ public class Main {
 
             HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
             server.createContext(
-                    "/card-number/validation",
-                    new CardValidationHandler(paymentSystemDeterminer, cardValidator, httpRequestReader, httpResponder))
+                            "/card-number/validation",
+                            new CardValidationHandler(
+                                    paymentSystemDeterminer,
+                                    cardValidator,
+                                    httpRequestReader,
+                                    httpResponder))
                     .getFilters()
                     .add(new HttpRequestValidationFilter());
             server.createContext("/mortgage/calculation",
-                    new MortgageCalculationHandler(mortgageCalculator, mortgageDataValidator, httpRequestReader, httpResponder));
+                    new MortgageCalculationHandler(
+                            mortgageCalculator,
+                            mortgageDataValidator,
+                            httpRequestReader,
+                            httpResponder));
 
             server.start();
             System.out.println("Server started on port " + port);

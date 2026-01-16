@@ -39,7 +39,9 @@ public class CardValidator implements Validator<BigDecimal> {
         for (PaymentSystem paymentSystem : PaymentSystem.values()) {
             var prefixes = paymentSystem.getPrefixes();
 
-            hasValidPrefix = prefixes.stream().anyMatch(p -> cardNumber.toString().startsWith(p.toString()));
+            hasValidPrefix = prefixes.stream()
+                    .anyMatch(p -> cardNumber.toString()
+                            .startsWith(p.toString()));
 
             if (hasValidPrefix) {
                 return true;
@@ -96,9 +98,11 @@ public class CardValidator implements Validator<BigDecimal> {
                         .sum();
 
         var sumOfEveryOtherNumber =
-                everyOtherNumberList.stream().map(n -> n * 2).mapToInt(Integer::intValue).sum();
+                everyOtherNumberList.stream()
+                        .map(n -> n * 2).mapToInt(Integer::intValue).sum();
 
-        var cardNumberSum = cardNumberAsList.stream().mapToInt(Integer::intValue).sum();
+        var cardNumberSum = cardNumberAsList.stream()
+                .mapToInt(Integer::intValue).sum();
 
         var sum = cardNumberSum + sumOfNumbersWithTwoDigits + sumOfEveryOtherNumber;
 
@@ -113,6 +117,7 @@ public class CardValidator implements Validator<BigDecimal> {
     }
 
     private List<Character> stringToCharactersList(String str) {
-        return Arrays.stream(str.split("")).map(s -> s.charAt(0)).collect(Collectors.toList());
+        return Arrays.stream(str.split(""))
+                .map(s -> s.charAt(0)).collect(Collectors.toList());
     }
 }

@@ -164,14 +164,17 @@ public class MortgageCalculator {
         BigDecimal annualInterestRate = convertPercentToDecimal(mortgageData.annualInterestRate());
         BigDecimal numberOfYearsToPay = mortgageData.numberOfYearsToPay();
         BigDecimal numberOfMonthlyPayments = numberOfYearsToPay.multiply(MONTHS_PER_YEAR);
-        BigDecimal total_repayment_per_single_currency_unit = getTotalRepaymentPerSingleCurrencyUnit(annualInterestRate, numberOfYearsToPay);
+        BigDecimal total_repayment_per_single_currency_unit =
+                getTotalRepaymentPerSingleCurrencyUnit(annualInterestRate, numberOfYearsToPay);
 
         return borrowedAmount
                 .multiply(total_repayment_per_single_currency_unit)
                 .divide(numberOfMonthlyPayments, 4, RoundingMode.HALF_EVEN);
     }
 
-    private BigDecimal getTotalRepaymentPerSingleCurrencyUnit(BigDecimal annualInterestRate, BigDecimal numberOfYearsToPay) {
+    private BigDecimal getTotalRepaymentPerSingleCurrencyUnit(
+            BigDecimal annualInterestRate,
+            BigDecimal numberOfYearsToPay) {
         BigDecimal linearInterestApproximationPerSingleCurrencyUnit = annualInterestRate
                 .multiply(getAverageOf(numberOfYearsToPay, BigDecimal.ZERO));
 
@@ -181,8 +184,8 @@ public class MortgageCalculator {
                 .divide(MACLAURIN_SERIES_EXPANSION_COEFFICIENT, 4, RoundingMode.HALF_EVEN);
 
         return SINGLE_CURRENCY_UNIT
-                        .add(linearInterestApproximationPerSingleCurrencyUnit)
-                        .add(quadraticCorrectionPerSingleCurrencyUnit);
+                .add(linearInterestApproximationPerSingleCurrencyUnit)
+                .add(quadraticCorrectionPerSingleCurrencyUnit);
     }
 
     private BigDecimal convertPercentToDecimal(BigDecimal percent) {
@@ -193,6 +196,8 @@ public class MortgageCalculator {
     }
 
     private BigDecimal getAverageOf(BigDecimal... numbers) {
-        return Arrays.stream(numbers).reduce(BigDecimal.ZERO, BigDecimal::add).divide(BigDecimal.valueOf(numbers.length), 4, RoundingMode.HALF_EVEN);
+        return Arrays.stream(numbers)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .divide(BigDecimal.valueOf(numbers.length), 4, RoundingMode.HALF_EVEN);
     }
 }

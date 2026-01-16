@@ -14,65 +14,71 @@ import java.util.Scanner;
 import java.util.Map;
 
 public class BankingUtilsApp {
-  private static final UserInteraction commandLineUserInteraction =
-      new CommandLineUserInteraction(System.out, new Scanner(System.in));
-  private static final CardValidator cardValidator = new CardValidator();
-  private static final PaymentSystemDeterminer paymentSystemDeterminer = new PaymentSystemDeterminer();
-  private static final MortgageDataValidator mortgageDataValidator = new MortgageDataValidator();
-  private static final MortgageCalculator mortgageCalculator = new MortgageCalculator();
-  private static final Map<Integer, Dialog> DIALOG_MAP = Map.of(
-        0,
-        new CardValidatorDialog(commandLineUserInteraction, cardValidator, paymentSystemDeterminer),
-        1,
-        new MortgageCalculatorDialog(commandLineUserInteraction, mortgageDataValidator, mortgageCalculator));
+    private static final UserInteraction commandLineUserInteraction =
+            new CommandLineUserInteraction(System.out, new Scanner(System.in));
+    private static final CardValidator cardValidator = new CardValidator();
+    private static final PaymentSystemDeterminer paymentSystemDeterminer = new PaymentSystemDeterminer();
+    private static final MortgageDataValidator mortgageDataValidator = new MortgageDataValidator();
+    private static final MortgageCalculator mortgageCalculator = new MortgageCalculator();
+    private static final Map<Integer, Dialog> DIALOG_MAP = Map.of(
+            0,
+            new CardValidatorDialog(
+                    commandLineUserInteraction,
+                    cardValidator,
+                    paymentSystemDeterminer),
+            1,
+            new MortgageCalculatorDialog(
+                    commandLineUserInteraction,
+                    mortgageDataValidator,
+                    mortgageCalculator));
 
-  public static void main(String[] args) {
-    selectDialog().run();
-  }
+    public static void main(String[] args) {
+        selectDialog().run();
+    }
 
-  private static String getBankingServiceSelectionPromptMessage() {
-    var greetingMessage =
-        new StringBuilder("Hello. Please type the index of the service you need:\n");
+    private static String getBankingServiceSelectionPromptMessage() {
+        var greetingMessage =
+                new StringBuilder("Hello. Please type the index of the service you need:\n");
 
-    DIALOG_MAP.entrySet().stream()
-        .sorted(Map.Entry.comparingByKey())
-        .forEach(
-            e ->
-                greetingMessage
-                    .append("[")
-                    .append(e.getKey())
-                    .append("] - ")
-                    .append(e.getValue())
-                    .append("\n"));
+        DIALOG_MAP.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(
+                        e ->
+                                greetingMessage
+                                        .append("[")
+                                        .append(e.getKey())
+                                        .append("] - ")
+                                        .append(e.getValue())
+                                        .append("\n"));
 
-    return greetingMessage.toString();
-  }
+        return greetingMessage.toString();
+    }
 
-  private static Dialog selectDialog() {
+    private static Dialog selectDialog() {
 
-    var promptMessage = getBankingServiceSelectionPromptMessage();
+        var promptMessage = getBankingServiceSelectionPromptMessage();
 
-    commandLineUserInteraction.write(promptMessage);
+        commandLineUserInteraction.write(promptMessage);
 
-    var selectedBankingService = -1;
+        var selectedBankingService = -1;
 
-    do {
-      var input = commandLineUserInteraction.read();
+        do {
+            var input = commandLineUserInteraction.read();
 
-      if (!isValidBankingServiceIndex(input)) {
-        commandLineUserInteraction.write(
-            "Please write only a number representing an index of a service.");
-      }
+            if (!isValidBankingServiceIndex(input)) {
+                commandLineUserInteraction.write(
+                        "Please write only a number representing an index of a service.");
+            }
 
-      selectedBankingService = Integer.parseInt(input);
+            selectedBankingService = Integer.parseInt(input);
 
-    } while (selectedBankingService < 0);
+        } while (selectedBankingService < 0);
 
-    return DIALOG_MAP.get(selectedBankingService);
-  }
+        return DIALOG_MAP.get(selectedBankingService);
+    }
 
-  private static boolean isValidBankingServiceIndex(String input) {
-    final var NON_NEGATIVE_INTEGER_PATTERN = "^(0|[1-9]\\d*)$";
-    return input.matches(NON_NEGATIVE_INTEGER_PATTERN) && DIALOG_MAP.containsKey(Integer.parseInt(input));
-  }
+    private static boolean isValidBankingServiceIndex(String input) {
+        final var NON_NEGATIVE_INTEGER_PATTERN = "^(0|[1-9]\\d*)$";
+        return input.matches(NON_NEGATIVE_INTEGER_PATTERN) && DIALOG_MAP.containsKey(Integer.parseInt(input));
+    }
 }
