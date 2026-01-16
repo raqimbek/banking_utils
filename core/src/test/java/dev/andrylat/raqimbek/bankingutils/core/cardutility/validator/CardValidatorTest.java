@@ -14,7 +14,7 @@ public class CardValidatorTest {
   public void shouldReturnInvalidLengthErrorMessage() {
     var expected = "Length should be 16 symbols";
     var actual = "";
-    var errors = cardValidator.validate(new BigDecimal("1234")).errors();
+    var errors = cardValidator.validate(new BigDecimal("1234"));
 
     if (!errors.isEmpty()) {
       actual = errors.getFirst();
@@ -26,7 +26,7 @@ public class CardValidatorTest {
   public void shouldReturnNoPaymentSystemErrorMessage() {
     var expected = "Payment System can't be determined";
     var actual = "";
-    var errors = cardValidator.validate(new BigDecimal("5625233430109903")).errors();
+    var errors = cardValidator.validate(new BigDecimal("5625233430109903"));
 
     if (!errors.isEmpty()) {
       actual = errors.getFirst();
@@ -38,7 +38,7 @@ public class CardValidatorTest {
   @Test
   public void shouldReturnLuhnTestErrorMessage() {
     var expected ="Card Number does not pass the Luhn Test";
-    var actual = cardValidator.validate(new BigDecimal("5425233430109923")).errors();
+    var actual = cardValidator.validate(new BigDecimal("5425233430109923"));
 
     assertTrue(actual.contains(expected));
   }
@@ -46,7 +46,7 @@ public class CardValidatorTest {
   @Test
   public void shouldReturnNoErrorMessage() {
     var expected = 0;
-    var errors = cardValidator.validate(new BigDecimal("4333294581965034")).errors();
+    var errors = cardValidator.validate(new BigDecimal("4333294581965034"));
     var actual = errors.size();
 
 

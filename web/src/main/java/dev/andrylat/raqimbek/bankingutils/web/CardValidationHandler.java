@@ -2,45 +2,67 @@ package dev.andrylat.raqimbek.bankingutils.web;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import dev.andrylat.raqimbek.bankingutils.core.cardutility.service.paymentsystemdeterminer.PaymentSystemDeterminer;
 import dev.andrylat.raqimbek.bankingutils.core.cardutility.validator.CardValidator;
-import lombok.AllArgsConstructor;
+import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.io.IOException;
 
-@AllArgsConstructor
-public class CardValidationHandler implements HttpHandler {
-    private CardValidator cardValidator;
-    private HttpRequestReader httpRequestReader;
-    private HttpResponder httpResponder;
+public class CardValidationHandler extends BankingHandler implements HttpHandler {
+    private final PaymentSystemDeterminer paymentSystemDeterminer;
+    private final CardValidator cardValidator;
+    private final HttpResponder httpResponder;
+
+    public CardValidationHandler(PaymentSystemDeterminer paymentSystemDeterminer,
+                                 CardValidator cardValidator,
+                                 HttpRequestReader httpRequestReader,
+                                 HttpResponder httpResponder) {
+        super(httpRequestReader, httpResponder);
+        this.paymentSystemDeterminer = paymentSystemDeterminer;
+        this.cardValidator = cardValidator;
+        this.httpResponder = httpResponder;
+    }
+
+    protected void handleRequest(
+            JSONObject requestBodyJson,
+            JSONObject responseJson,
+            HttpExchange exchange) throws IOException {
+
+            var cardNumber = requestBodyJson.getBigDecimal("cardNumber");
+            var cardValidationErrors = cardValidator.validate(cardNumber);
+
+            responseJson.put("isCardValid", cardValidationErrors.isEmpty());
+            cardValidationErrors.forEach(cardValidationError ->
+                    responseJson.getJSONArray("errors").put(cardValidationError));
+
+            if (!cardValidationErrors.isEmpty()) {
+                httpResponder.respondJson(exchange, responseJson, 400);
+                return;
+            }
+
+            var paymentSystemOptional = paymentSystemDeterminer.determinePaymentSystem(cardNumber);
+
+            if (paymentSystemOptional.isEmpty()) {
+                responseJson.getJSONArray("errors")
+                        .put("Something went wrong... Payment system could not be determined.");
+                httpResponder.respondJson(exchange, responseJson, 400);
+                return;
+            }
+
+            responseJson.put("paymentSystem", paymentSystemOptional.get().toString());
+
+            httpResponder.respondJson(exchange, responseJson, 200);
+    }
 
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        var contentType = exchange.getRequestHeaders().getFirst("Content-Type");
-        var response = new JSONObject();
+    protected void initializeResponse(JSONObject responseJson) {
+        responseJson.put("errors", new JSONArray());
+    }
 
-        if (exchange.getRequestMethod().equals("POST")) {
-            if (contentType != null && contentType.startsWith("application/json")) {
-                var cardNumber = httpRequestReader.getRequestParameterAsBigDecimal("cardNumber", exchange);
-                var cardValidationResult = cardValidator.validate(cardNumber);
-
-                response.put("validation-result", cardValidationResult.isValid());
-
-                try (exchange) {
-                    if (cardValidationResult.isValid()) {
-                        httpResponder.respondJson(exchange, response, 200);
-                    } else {
-                        response.put("validation-messages", cardValidationResult.errors());
-                        httpResponder.respondJson(exchange, response, 400);
-                    }
-                }
-            } else {
-                response.put("errorMessage", "Content-Type must be application/json");
-                httpResponder.respondJson(exchange, response, 415);
-            }
-        } else {
-            exchange.getResponseHeaders().set("Allow", "POST");
-            response.put("errorMessage", "Only POST is allowed");
-            httpResponder.respondJson(exchange, response, 405);
-        }
+    @Override
+    protected void handleJsonException(JSONObject responseJson) {
+        responseJson.put("isCardValid", false);
+        super.handleJsonException(responseJson);
     }
 }

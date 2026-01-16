@@ -5,50 +5,48 @@ import com.sun.net.httpserver.HttpHandler;
 import dev.andrylat.raqimbek.bankingutils.core.mortgageutility.service.MortgageCalculator;
 import dev.andrylat.raqimbek.bankingutils.core.mortgageutility.service.MortgageData;
 import dev.andrylat.raqimbek.bankingutils.core.mortgageutility.validator.MortgageDataValidator;
-import lombok.AllArgsConstructor;
+import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.IOException;
 
-@AllArgsConstructor
-public class MortgageCalculationHandler implements HttpHandler {
-    private MortgageCalculator mortgageCalculator;
-    private MortgageDataValidator mortgageDataValidator;
-    private HttpRequestReader httpRequestReader;
-    private HttpResponder httpResponder;
 
-    @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        var contentType = exchange.getRequestHeaders().getFirst("Content-Type");
-        var response = new JSONObject();
+public class MortgageCalculationHandler extends BankingHandler implements HttpHandler  {
+    private final MortgageCalculator mortgageCalculator;
+    private final MortgageDataValidator mortgageDataValidator;
+    private final HttpResponder httpResponder;
 
-        if (exchange.getRequestMethod().equals("POST")) {
-            if (contentType != null && contentType.startsWith("application/json")) {
-                var mortgageData = new MortgageData(
-                        httpRequestReader.getRequestParameterAsBigDecimal("borrowedAmount", exchange),
-                        httpRequestReader.getRequestParameterAsBigDecimal("annualInterest", exchange),
-                        httpRequestReader.getRequestParameterAsBigDecimal("numberOfYearsToPay", exchange));
-                var mortgageInputValidationResult =
-                        mortgageDataValidator.validate(mortgageData);
+    public MortgageCalculationHandler(MortgageCalculator mortgageCalculator,
+                                      MortgageDataValidator mortgageDataValidator,
+                                      HttpRequestReader httpRequestReader,
+                                      HttpResponder httpResponder) {
+        super(httpRequestReader, httpResponder);
+        this.mortgageCalculator = mortgageCalculator;
+        this.mortgageDataValidator = mortgageDataValidator;
+        this.httpResponder = httpResponder;
+    }
 
-                if (mortgageInputValidationResult.isValid()) {
-                    response.put(
-                            "monthly-mortgage-payment-amount",
-                            mortgageCalculator
-                                    .calculateMonthlyMortgagePayment(mortgageData));
-                    httpResponder.respondJson(exchange, response, 200);
-                } else {
-                    response.put("validation-messages", mortgageInputValidationResult.errors());
-                    httpResponder.respondJson(exchange, response, 400);
-                }
-            } else {
-                response.put("errorMessage", "Content-Type must be application/json");
-                httpResponder.respondJson(exchange, response, 415);
+    protected void handleRequest(
+            JSONObject requestBodyJson,
+            JSONObject responseJson,
+            HttpExchange exchange) throws IOException {
+            var mortgageData = new MortgageData(
+                    requestBodyJson.getBigDecimal("borrowedAmount"),
+                    requestBodyJson.getBigDecimal("annualInterest"),
+                    requestBodyJson.getBigDecimal("numberOfYearsToPay"));
+
+            var mortgageInputValidationErrors =
+                    mortgageDataValidator.validate(mortgageData);
+
+            if (!mortgageInputValidationErrors.isEmpty()) {
+                responseJson.put("errors", new JSONArray(mortgageInputValidationErrors));
+                httpResponder.respondJson(exchange, responseJson, 400);
+                return;
             }
-        } else {
-            exchange.getResponseHeaders().set("Allow", "POST");
-            response.put("errorMessage", "Only POST is allowed");
-            httpResponder.respondJson(exchange, response, 405);
-        }
+
+            responseJson.put(
+                    "monthlyMortgagePayment",
+                    mortgageCalculator
+                            .calculateMonthlyMortgagePayment(mortgageData));
+            httpResponder.respondJson(exchange, responseJson, 200);
     }
 }

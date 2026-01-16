@@ -10,17 +10,7 @@ import java.util.List;
 public class MortgageDataValidator implements Validator<MortgageData> {
   private static final double MINIMUM_BORROWED_AMOUNT = 1.0;
 
-  public MortgageDataValidationResult validate(MortgageData mortgageData) {
-    if (mortgageData != null) {
-      var errors = generateErrors(mortgageData);
-
-      return new MortgageDataValidationResult(errors.isEmpty(), errors);
-    } else {
-      return new MortgageDataValidationResult(false, null);
-    }
-  }
-
-  private List<String> generateErrors(MortgageData mortgageData) {
+  public List<String> validate(MortgageData mortgageData) {
     var errors = new ArrayList<String>();
 
     if (!isPositiveDecimalNumbers(mortgageData.borrowedAmount().toString(),

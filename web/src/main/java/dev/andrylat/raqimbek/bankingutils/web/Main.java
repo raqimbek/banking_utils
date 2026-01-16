@@ -7,6 +7,7 @@ import dev.andrylat.raqimbek.bankingutils.core.mortgageutility.service.MortgageC
 import dev.andrylat.raqimbek.bankingutils.core.mortgageutility.validator.MortgageDataValidator;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.InetSocketAddress;
 
 public class Main {
@@ -14,8 +15,8 @@ public class Main {
     private static final MortgageDataValidator mortgageDataValidator = new MortgageDataValidator();
     private static final CardValidator cardValidator = new CardValidator();
     private static final PaymentSystemDeterminer paymentSystemDeterminer = new PaymentSystemDeterminer();
-    private static final HttpRequestReader httpRequestReader = new HttpRequestReader();
     private static final HttpResponder httpResponder = new HttpResponder();
+    private static final HttpRequestReader httpRequestReader = new HttpRequestReader();
 
     public static void main(String[] args) {
 
@@ -27,10 +28,11 @@ public class Main {
             }
 
             HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-            server.createContext("/card-number/validation",
-                    new CardValidationHandler(cardValidator, httpRequestReader, httpResponder));
-            server.createContext("/card-number/payment-system",
-                    new PaymentSystemHandler(cardValidator, paymentSystemDeterminer, httpRequestReader, httpResponder));
+            server.createContext(
+                    "/card-number/validation",
+                    new CardValidationHandler(paymentSystemDeterminer, cardValidator, httpRequestReader, httpResponder))
+                    .getFilters()
+                    .add(new HttpRequestValidationFilter());
             server.createContext("/mortgage/calculation",
                     new MortgageCalculationHandler(mortgageCalculator, mortgageDataValidator, httpRequestReader, httpResponder));
 
@@ -39,7 +41,7 @@ public class Main {
         } catch (NumberFormatException e) {
             System.err.println(e.getMessage());
             System.err.println("Usage: java -jar bankingutils.jar [port]");
-        } catch (IOException e) {
+        } catch (IOException | UncheckedIOException e) {
             System.err.println("Something went wrong... Detected errors:");
             System.err.println(e.getMessage());
         }

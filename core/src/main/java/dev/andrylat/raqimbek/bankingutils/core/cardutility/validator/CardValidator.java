@@ -10,13 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class CardValidator implements Validator<BigDecimal> {
-    public CardValidationResult validate(BigDecimal cardNumber) {
-        var errors = generateErrors(cardNumber);
-
-        return new CardValidationResult(errors.isEmpty(), errors);
-    }
-
-    private List<String> generateErrors(BigDecimal cardNumber) {
+    public List<String> validate(BigDecimal cardNumber) {
         var errors = new ArrayList<String>();
         var validLength = PaymentSystem.CARD_VALID_LENGTH;
         var hasValidLength = hasValidLength(cardNumber, validLength);
