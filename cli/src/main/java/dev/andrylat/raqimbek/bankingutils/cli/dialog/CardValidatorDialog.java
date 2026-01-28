@@ -43,7 +43,7 @@ public class CardValidatorDialog implements Dialog {
         userInteraction.write(promptMessage);
         try {
             return Optional.of(userInteraction.readBigDecimal());
-        } catch (InputMismatchException exception) {
+        } catch (InputMismatchException | NumberFormatException exception) {
             userInteraction.write("The card number must not be an empty line. It must contain only digits and must not include spaces, hyphens, or other characters.");
         } catch (NoSuchElementException exception) {
             userInteraction.write("The operation has been stopped by the user.");
