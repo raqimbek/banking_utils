@@ -11,11 +11,13 @@ public class HttpResponder {
             HttpExchange exchange,
             String response,
             int statusCode) throws IOException {
-        var outputStream = exchange.getResponseBody();
+        var responseBytes = response.getBytes(StandardCharsets.UTF_8);
 
-        exchange.sendResponseHeaders(statusCode, response.getBytes().length);
+        exchange.sendResponseHeaders(statusCode, responseBytes.length);
 
-        outputStream.write(response.getBytes(StandardCharsets.UTF_8));
+        try (var outputStream = exchange.getResponseBody()) {
+            outputStream.write(responseBytes);
+        }
     }
 
     public void respondJson(
