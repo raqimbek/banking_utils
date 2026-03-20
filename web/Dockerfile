@@ -1,27 +1,29 @@
-# Use the official Maven image with Eclipse Temurin JDK
-FROM maven:3.9.11-eclipse-temurin-17 AS build
+# Build stage
+FROM maven:3.9.12-eclipse-temurin-25 AS build
 
-# Set the working directory to the web submodule
-WORKDIR /banking_utils/web
+WORKDIR /banking_utils
 
-# Copy the pom.xml and the source code of the web submodule
+# Copy parent POM
 COPY pom.xml ./
-COPY src ./src
 
-# Package the application
-RUN mvn clean package -DskipTests
+# Copy module POMs for reactor resolution
+COPY cli/pom.xml ./cli/pom.xml
 
-# Use a smaller image for the runtime
-FROM eclipse-temurin:17-jdk-alpine
+# Copy modules needed for web
+COPY core ./core
+COPY web ./web
 
-# Set the working directory in the container
-WORKDIR /banking_utils/web
+# Build only the web module and its dependencies
+RUN mvn clean package -pl web -am -DskipTests -Pdocker
 
-# Copy the jar file from the build stage
-COPY --from=build /banking_utils/web/target/web-1.0-SNAPSHOT.jar app.jar
+# Runtime stage
+FROM eclipse-temurin:25-jdk-alpine
 
-# Set metadata about the image
-LABEL authors="Raqimbek"
+WORKDIR /app
 
-# Command to run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Copy the built JAR from web module
+COPY --from=build /banking_utils/web/target/*.jar app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "app.jar", "8080"]
