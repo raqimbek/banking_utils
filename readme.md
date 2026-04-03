@@ -8,23 +8,24 @@ This is a simple app that validates a credit card number
 ## Installation
 
 1. Clone the repository:
-```bash
- git clone https://github.com/raqimbek/credit_card_validator.git
-```
+
+    ```bash
+      git clone https://github.com/raqimbek/credit_card_validator.git
+    ```
 
 2. Run either Maven's or Gradle's corresponding command to generate the `.jar` file:
 
-- Maven
+  - Maven
 
-```bash
- mvn package
-```
+    ```bash
+        mvn package
+    ```
 
-- Gradle
+  - Gradle
 
-```bash
- gradlew build
-```
+    ```bash
+        gradlew build
+    ```
 
 ## Usage
 To run the project, use one of the following commands:
@@ -40,5 +41,3 @@ java -jar app/target/app-1.0-snapshot.jar
 ```bash
 java -jar app/build/libs/app.jar
 ```
-
-
