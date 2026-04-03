@@ -1,0 +1,97 @@
+swagger: "2.0"
+info:
+  title: Banking Utilities API
+  description: The API provides banking utilities such as a mortgage calculator and card number validator.
+  version: 0.0.1
+
+host: dev.andrylat.raqimbek.bankingutils
+basePath: /v1
+schemes:
+  - https
+
+paths:
+  /card-number/validation:
+    post:
+      summary: Returns the validation information
+      description: Returns true if the card number is valid and false if the card number is not valid.
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: formData
+          name: cardNumber
+          type: string
+          description: Card number
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Validation was successful.
+          schema:
+            $ref: '#/definitions/ValidationResult'
+        400:
+          description: Validation has failed.
+  /card-number/payment-system:
+    post:
+      summary: Returns the payment system of the card.
+      description: Returns the payment system associated with the provided card number as a string.
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: formData
+          name: cardNumber
+          type: string
+          description: Card number
+      produces:
+        - application/json
+      responses:
+        200:
+          description: The payment system is determined and returned in the response.
+          schema:
+            $ref: '#/definitions/PaymentSystem'
+        400:
+          description: Bad request. The payment system cannot be determined based on the provided card number.
+  /mortgage/calculation:
+    post:
+      summary: Returns the monthly mortgage payment amount.
+      description: Returns the monthly mortgage payment based on the provided parameters.
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: formData
+          name: borrowedAmount
+          type: string
+          description: Amount of money the user borrowed.
+        - in: formData
+          name: annualInterestRate
+          type: string
+          description: Annual interest rate of the mortgage.
+        - in: formData
+          name: numberOfYearsToPay
+          type: string
+          description: Number of years the user has to repay the loan.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: The monthly mortgage payment is calculated and returned in the response.
+          schema:
+            type: string
+        400:
+          description: Bad request. The monthly mortgage payment cannot be calculated based on the provided parameters.
+definitions:
+  ValidationResult:
+    type: object
+    properties:
+      isValid:
+        type: boolean
+        description: Information on whether the card number is valid.
+      errors:
+        type: object
+        additionalProperties:
+          type: string
+  PaymentSystem:
+    type: object
+    properties:
+      paymentSystem:
+        type: string
+        description: The payment system.

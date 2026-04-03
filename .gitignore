@@ -48,13 +48,6 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
-# JDT-specific (Eclipse Java Development Tools)
-.classpath
-
-# Eclipse IDE files
-.project
-app/.settings
-app/bin
 
 # intellij idea files
 /.idea/
@@ -67,3 +60,6 @@ app/bin
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+
+#*.iml files
+*.iml

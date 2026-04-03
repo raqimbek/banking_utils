@@ -1,0 +1,401 @@
+{
+	"info": {
+		"_postman_id": "5b9b1557-6813-41b0-b4de-611a1131f9e4",
+		"name": "BankingUtilsAppRestTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47064912",
+		"_collection_link": "https://raqimbek-6863612.postman.co/workspace/AndryLat's-Workspace~013326bb-f626-44b0-8ccf-f5db920eb156/collection/47064912-5b9b1557-6813-41b0-b4de-611a1131f9e4?action=share&source=collection_link&creator=47064912"
+	},
+	"item": [
+		{
+			"name": "localhost:8081/card-number/payment-system",
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{baseURL}}/card-number/payment-system",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"card-number",
+						"payment-system"
+					]
+				},
+				"description": "Request for the payment system"
+			},
+			"response": [
+				{
+					"name": "localhost:8081/card-number/payment-system",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "cardNumber",
+									"value": "5425233430109903",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/card-number/payment-system",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"card-number",
+								"payment-system"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 29 Jul 2025 12:32:44 GMT"
+						},
+						{
+							"key": "Content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-length",
+							"value": "81"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"is-payment-system-determination-successful\": true,\n    \"payment-system\": \"MASTERCARD\"\n}"
+				},
+				{
+					"name": "localhost:8081/card-number/payment-system",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "cardNumber",
+									"value": "525233430109903",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/card-number/payment-system",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"card-number",
+								"payment-system"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 29 Jul 2025 12:37:37 GMT"
+						},
+						{
+							"key": "Content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-length",
+							"value": "189"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": "{\n    \"is-payment-system-determination-successful\": false,\n    \"errors\": [\n        {\n            \"validation-result\": false\n        },\n        {\n            \"validation-messages\": [\n                \"Length should be 16 symbols\",\n                \"Card Number does not pass the Luhn Test\"\n            ]\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "localhost:8081/card-number/validation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{baseURL}}/card-number/validation",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"card-number",
+						"validation"
+					]
+				},
+				"description": "Request for the card number validation"
+			},
+			"response": [
+				{
+					"name": "localhost:8081/card-number/validation",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "cardNumber",
+									"value": "5425233430109903",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/card-number/validation",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"card-number",
+								"validation"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 29 Jul 2025 12:38:54 GMT"
+						},
+						{
+							"key": "Content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-length",
+							"value": "26"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"validation-result\": true\n}"
+				},
+				{
+					"name": "localhost:8081/card-number/validation",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "cardNumber",
+									"value": "5625233430109903",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/card-number/validation",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"card-number",
+								"validation"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 29 Jul 2025 12:40:51 GMT"
+						},
+						{
+							"key": "Content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-length",
+							"value": "130"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": "{\n    \"validation-messages\": [\n        \"Payment System can't be determined\",\n        \"Card Number does not pass the Luhn Test\"\n    ],\n    \"validation-result\": false\n}"
+				}
+			]
+		},
+		{
+			"name": "localhost:8081/mortgage/calculation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{baseURL}}/mortgage/calculation",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"mortgage",
+						"calculation"
+					]
+				},
+				"description": "Mortgage Calculation with a valid input."
+			},
+			"response": [
+				{
+					"name": "localhost:8081/mortgage/calculation",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "borrowedAmount",
+									"value": "360000.0",
+									"type": "text"
+								},
+								{
+									"key": "annualInterest",
+									"value": "7.5",
+									"type": "text"
+								},
+								{
+									"key": "numberOfYears",
+									"value": "30",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/mortgage/calculation",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"mortgage",
+								"calculation"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 29 Jul 2025 12:42:14 GMT"
+						},
+						{
+							"key": "Content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-length",
+							"value": "46"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"monthly-mortgage-payment-amount\": \"3250.000\"\n}"
+				},
+				{
+					"name": "localhost:8081/mortgage/calculation",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "borrowedAmount",
+									"value": "360000.0",
+									"type": "text"
+								},
+								{
+									"key": "annualInterest",
+									"value": "7.5",
+									"type": "text"
+								},
+								{
+									"key": "numberOfYears",
+									"value": "thirty",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/mortgage/calculation",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"mortgage",
+								"calculation"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 29 Jul 2025 12:43:23 GMT"
+						},
+						{
+							"key": "Content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-length",
+							"value": "70"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": "{\n    \"validation-messages\": [\n        \"Only positive decimal numbers are allowed.\"\n    ]\n}"
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "localhost:8081",
+			"type": "default"
+		}
+	]
+}
